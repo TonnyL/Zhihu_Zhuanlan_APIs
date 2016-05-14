@@ -69,17 +69,19 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_tech) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_tourism_photograph) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_music_film) {
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_life) {
 
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.nav_psychology) {
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_financial) {
+
+        } else if (id == R.id.nav_about_zhihu){
 
         }
 

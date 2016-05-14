@@ -3,31 +3,31 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
+            android:id="@+id/nav_tech"
+            android:icon="@drawable/ic_photo_cloud"
             android:title="科技·互联网" />
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
+            android:id="@+id/nav_tourism_photograph"
+            android:icon="@drawable/ic_photo_camera"
             android:title="旅行·摄影" />
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:id="@+id/nav_music_film"
+            android:icon="@drawable/ic_photo_music"
             android:title="音乐·影视" />
         <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
+            android:id="@+id/nav_life"
+            android:icon="@drawable/ic_photo_cloud"
             android:title="生活·杂谈" />
         <item
             android:id="@+id/nav_psychology"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/ic_photo_emotion"
             android:title="情感·心理" />
         <item
-            android:id="@+id/nav_tourism"
-            android:icon="@drawable/ic_menu_gallery"
+            android:id="@+id/nav_financial"
+            android:icon="@drawable/ic_photo_financial"
             android:title="创业·金融" />
-        <item android:id="@+id/nav_car"
-            android:icon="@drawable/ic_menu_send"
+        <item android:id="@+id/nav_about_zhihu"
+            android:icon="@drawable/ic_photo_computer"
             android:title="知乎相关" />
     </group>
 
@@ -35,12 +35,12 @@
         <menu>
             <item
                 android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
+                android:icon="@drawable/ic_photo_settings"
+                android:title="设置" />
             <item
                 android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
+                android:icon="@drawable/ic_photo_info"
+                android:title="关于" />
         </menu>
     </item>
 

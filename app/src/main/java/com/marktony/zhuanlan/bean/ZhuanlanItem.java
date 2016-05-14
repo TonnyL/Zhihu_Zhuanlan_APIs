@@ -5,16 +5,16 @@ package com.marktony.zhuanlan.bean;
  */
 public class ZhuanlanItem {
 
-    private String name;
-    private String id;
+    private String name ;
+    private String slug;
     private String focusCount;
     private String articleCount;
     private String intro;
     private String avatarUrl;
 
-    public ZhuanlanItem(String name,String id,String avatarUrl,String focusCount,String articleCount,String intro){
+    public ZhuanlanItem(String name,String slug,String avatarUrl,String focusCount,String articleCount,String intro){
         this.name = name;
-        this.id = id;
+        this.slug = slug;
         this.avatarUrl = avatarUrl;
         this.focusCount = focusCount;
         this.articleCount = articleCount;
@@ -29,8 +29,8 @@ public class ZhuanlanItem {
         return focusCount;
     }
 
-    public String getId() {
-        return id;
+    public String getSlug() {
+        return slug;
     }
 
     public String getIntro() {

@@ -7,7 +7,7 @@ public class PostItem {
 
     private String author;
     private String commentCount;
-    private String imgUrl;
+    private String imgUrl = null;
     private String title;
     private String likeCount;
     private String slug;

@@ -9,7 +9,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
@@ -35,7 +34,6 @@ public class PostsListActivity extends AppCompatActivity {
     private LinearLayoutManager manager;
     private PostsAdapter adapter;
 
-    private RequestQueue queue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,9 +44,10 @@ public class PostsListActivity extends AppCompatActivity {
 
         initViews();
 
-        queue = Volley.newRequestQueue(getApplicationContext());
+        Intent intent = getIntent();
+        String slug = intent.getStringExtra("slug");
 
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, "https://zhuanlan.zhihu.com/api/columns/wooyun/posts?limit=10&offset=0", new Response.Listener<JSONArray>() {
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, "https://zhuanlan.zhihu.com/api/columns/" + slug + "/posts?limit=10&offset=0", new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray jsonArray) {
 
@@ -90,7 +89,8 @@ public class PostsListActivity extends AppCompatActivity {
 
             }
         });
-        queue.add(request);
+
+        Volley.newRequestQueue(getApplicationContext()).add(request);
 
     }
 

@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide;
 import com.marktony.zhuanlan.R;
 import com.marktony.zhuanlan.bean.ZhuanlanItem;
 import com.marktony.zhuanlan.ui.PostsListActivity;
+import com.marktony.zhuanlan.utils.OnRecyclerViewOnClickListener;
 import com.marktony.zhuanlan.view.CircleImageView;
 
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ public class ZhuanlanAdapter extends RecyclerView.Adapter<ZhuanlanAdapter.Zhuanl
     private final Context context;
     private final LayoutInflater inflater;
     private List<ZhuanlanItem> list = new ArrayList<ZhuanlanItem>();
+    private OnRecyclerViewOnClickListener mListener;
 
     public ZhuanlanAdapter(Context context,List<ZhuanlanItem> list){
         this.context = context;
@@ -36,7 +38,7 @@ public class ZhuanlanAdapter extends RecyclerView.Adapter<ZhuanlanAdapter.Zhuanl
     public ZhuanlanItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.zhuanlan_item,parent,false);
 
-        return new ZhuanlanItemViewHolder(view,context);
+        return new ZhuanlanItemViewHolder(view,mListener);
     }
 
     @Override
@@ -59,15 +61,20 @@ public class ZhuanlanAdapter extends RecyclerView.Adapter<ZhuanlanAdapter.Zhuanl
         return list.size();
     }
 
-    public class ZhuanlanItemViewHolder extends RecyclerView.ViewHolder {
+    public void setItemClickListener(OnRecyclerViewOnClickListener listener){
+        this.mListener = listener;
+    }
+
+    public class ZhuanlanItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private CircleImageView ciAvatar;
         private TextView tvName;
         private TextView tvIntro;
         private TextView tvArticleCount;
         private TextView tvFansCount;
+        private OnRecyclerViewOnClickListener listener;
 
-        public ZhuanlanItemViewHolder(View itemView, final Context context) {
+        public ZhuanlanItemViewHolder(View itemView,OnRecyclerViewOnClickListener listener) {
             super(itemView);
 
             ciAvatar = (CircleImageView) itemView.findViewById(R.id.avatar);
@@ -76,13 +83,15 @@ public class ZhuanlanAdapter extends RecyclerView.Adapter<ZhuanlanAdapter.Zhuanl
             tvFansCount = (TextView) itemView.findViewById(R.id.tv_fans_count);
             tvArticleCount = (TextView) itemView.findViewById(R.id.tv_article_count);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(context, PostsListActivity.class);
-                    context.startActivity(intent);
-                }
-            });
+            this.listener = listener;
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (listener != null){
+                listener.OnClick(v,getLayoutPosition());
+            }
         }
     }
 }
