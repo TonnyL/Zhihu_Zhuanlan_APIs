@@ -5,7 +5,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +36,9 @@ public class TechFragment extends Fragment {
     private List<ZhuanlanItem> list = new ArrayList<ZhuanlanItem>();
     private LinearLayoutManager layoutManager;
 
+    private String[] ids;
+    private String baseUrl = "https://zhuanlan.zhihu.com/api/columns/";
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,6 +48,7 @@ public class TechFragment extends Fragment {
 
         layoutManager = new LinearLayoutManager(getActivity());
 
+        ids = getActivity().getResources().getStringArray(R.array.tech_ids);
     }
 
     @Nullable
@@ -55,36 +58,39 @@ public class TechFragment extends Fragment {
 
         initViews(view);
 
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, "https://zhuanlan.zhihu.com/api/columns/wooyun", new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject jsonObject) {
-                try {
-                    String followersCount = jsonObject.getString("followersCount");
-                    String description = jsonObject.getString("description");
-                    String avatar = "https://pic2.zhimg.com/" + jsonObject.getJSONObject("avatar").getString("id") + "_m.jpg";
-                    String id = "wooyun";
-                    String name = jsonObject.getString("name");
-                    String postCount = jsonObject.getString("postsCount");
-                    ZhuanlanItem item = new ZhuanlanItem(name,id,avatar,followersCount,postCount,description);
+        for (String id:ids) {
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, baseUrl + id, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject jsonObject) {
+                    try {
+                        String followersCount = jsonObject.getString("followersCount");
+                        String description = jsonObject.getString("description");
+                        String avatar = "https://pic2.zhimg.com/" + jsonObject.getJSONObject("avatar").getString("id") + "_m.jpg";
+                        String id = "wooyun";
+                        String name = jsonObject.getString("name");
+                        String postCount = jsonObject.getString("postsCount");
+                        ZhuanlanItem item = new ZhuanlanItem(name,id,avatar,followersCount,postCount,description);
 
-                    list.add(item);
+                        list.add(item);
 
-                    adapter = new ZhuanlanAdapter(getActivity(),list);
-                    rvMain.setAdapter(adapter);
+                        adapter = new ZhuanlanAdapter(getActivity(),list);
+                        rvMain.setAdapter(adapter);
 
 
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError volleyError) {
 
-            }
-        });
+                }
+            });
 
-        queue.add(request);
+            queue.add(request);
+        }
+
 
         return view;
     }
@@ -94,4 +100,5 @@ public class TechFragment extends Fragment {
         rvMain = (RecyclerView) view.findViewById(R.id.rv_main);
         rvMain.setLayoutManager(layoutManager);
     }
+
 }

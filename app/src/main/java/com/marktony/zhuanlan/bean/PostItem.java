@@ -9,22 +9,20 @@ public class PostItem {
     private String commentCount;
     private String imgUrl;
     private String title;
-    private String briefContent;
+    private String likeCount;
+    private String slug;
 
-    public PostItem(String author,String commentCount,String imgUrl,String title,String briefContent){
+    public PostItem(String slug,String author,String commentCount,String imgUrl,String title,String likeCount){
+        this.slug = slug;
         this.author = author;
         this.commentCount = commentCount;
         this.imgUrl = imgUrl;
         this.title = title;
-        this.briefContent = briefContent;
+        this.likeCount = likeCount;
     }
 
     public String getAuthor() {
         return author;
-    }
-
-    public String getBriefContent() {
-        return briefContent;
     }
 
     public String getCommentCount() {
@@ -37,5 +35,13 @@ public class PostItem {
 
     public String getTitle() {
         return title;
+    }
+
+    public String getLikeCount() {
+        return likeCount;
+    }
+
+    public String getSlug() {
+        return slug;
     }
 }

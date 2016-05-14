@@ -29,6 +29,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.marktony.zhuanlan.ui.MainActivity" />
         </activity>
+        <activity
+            android:name=".ui.ReadActivity"
+            android:label="@string/title_activity_read"
+            android:parentActivityName=".ui.PostsListActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.marktony.zhuanlan.ui.PostsListActivity" />
+        </activity>
     </application>
 
 </manifest>
