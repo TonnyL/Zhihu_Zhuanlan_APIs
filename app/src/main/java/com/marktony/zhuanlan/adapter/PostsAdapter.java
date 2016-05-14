@@ -2,7 +2,6 @@ package com.marktony.zhuanlan.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,13 +43,11 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
     public void onBindViewHolder(PostsViewHolder holder, int position) {
         PostItem item = list.get(position);
 
-        if (item.getImgUrl() != null){
-            Glide.with(context).load(item.getImgUrl()).centerCrop().into(holder.ivMain);
-            Log.d("image",item.getImgUrl());
-        } else {
+        if (item.getImgUrl() == null || item.getImgUrl().equals("")){
             holder.ivMain.setImageResource(R.drawable.error_image);
             holder.ivMain.setScaleType(ImageView.ScaleType.CENTER_CROP);
-
+        } else {
+            Glide.with(context).load(item.getImgUrl()).centerCrop().into(holder.ivMain);
         }
         holder.tvAuthor.setText(item.getAuthor());
         String likes = item.getLikeCount() + "赞";

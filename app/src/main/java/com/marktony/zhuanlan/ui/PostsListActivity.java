@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 
 import com.android.volley.Request;
@@ -52,8 +53,10 @@ public class PostsListActivity extends AppCompatActivity {
             public void onResponse(JSONArray jsonArray) {
 
                 for (int i = 0;i < jsonArray.length();i++){
+
                     try {
                         JSONObject object = jsonArray.getJSONObject(i);
+
                         String author = object.getJSONObject("author").getString("name");
                         String title = object.getString("title");
                         String commentCount = object.getString("commentsCount");
