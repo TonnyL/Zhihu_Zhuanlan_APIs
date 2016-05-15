@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="tech_ids" >
+        <item>design</item><!--产品设计与用户体验-->
+        <item>pinapps</item><!--Pinapps - 感谢那些赐予我们力量的 apps-->
+        <item>WebNotes</item><!--小道消息-->
+        <item>riobard</item><!--Rio 说-->
+        <item>luckystar</item><!--Luckystar Says-->
+        <item>zuimei</item><!--最美应用 | 有价值的好应用-->
+        <item>hemingke</item><!--数据冰山-->
+        <item>wooyun</item><!--乌云君-->
+        <item>bigertech</item><!--笔戈科技-->
+        <item>smartdesigner</item><!--理科生是设计师-->
+    </string-array>
+
+    <string-array name="zhihu_ids" >
+        <item>zhihuadmin</item><!--知乎小管家说-->
+        <item>banquan</item><!--知乎版权保护专栏-->
+        <item>zhihulive</item><!--知乎 Live-->
+        <item>Weekly</item><!--知乎电子书-->
+        <item>daily</item><!--知乎日报-->
+        <item>zhihumkt</item><!--知识青年-->
+        <item>netjob</item><!--程序员的自我修养-->
+        <item>FrontendMagazine</item><!--前端外刊评论-->
+    </string-array>
+
+    <string-array name="photography_ids">
+        <item>yanshar</item><!--The Final Boarding Call-->
+        <item>Photography</item><!--摄影的那些事儿-->
+        <item>he110world</item><!--我们的征途是星辰大海-->
+        <item>ciciatc</item><!--与食巨近贱多食广地蹦跶在不列颠-->
+        <item>japan-talk</item><!--东瀛杂记-->
+        <item>limiao</item><!--李淼带你看日本-->
+        <item>hikarifromtokyo</item><!--东京光芒-->
+        <item>ethanlam</item><!--一群旅行体验师-->
+        <item>chivnjapan</item><!--你不知道的日本-->
+    </string-array>
+
+    <string-array name="life_talks_ids">
+        <item>zhangjiawei</item><!--张佳玮写字的地方-->
+        <item>hibetterme</item><!--女神进化论-->
+        <item>maboyong</item><!--异教徒告解室--><!--马伯庸-->
+        <item>xiepanda</item><!--谢熊猫出没注意-->
+        <item>niceliving</item><!--好好住指南-->
+        <item>uglypeoplefuckbooks</item><!--人丑就该多读书-->
+        <item>doubtsinreading</item><!--读书有疑-->
+        <item>Wisdom</item><!--另一面-->
+        <item>oh-hard</item><!--硬派健身-->
+        <item>Song-Shibo</item><!--宋世泊-->
+    </string-array>
+
+    <string-array name="psychology_ids">
+        <item>lswlsw</item><!--潜台词-->
+        <item>happy</item><!--幸福课-->
+        <item>psychology</item><!--心理学你妹-->
+        <item>jiandanxinli</item><!--简单心理-->
+        <item>lengai</item><!--冷眼观爱-->
+        <item>career</item><!--如何做你所爱-->
+        <item>aiqing</item><!--只谈风月-->
+        <item>knowyourself</item><!--Know Yourself-->
+    </string-array>
+
+    <string-array name="music_film_ids">
+        <item>zhimovie</item><!--知影-->
+        <item>Battlestar</item><!--太空堡垒-->
+        <item>happymuyi</item><!--木易聊影-->
+        <item>48zhen</item><!--48帧-->
+        <item>nordenbox</item><!--Real Fantasy-->
+        <item>classicalmusic</item><!--古典音乐的美好-->
+        <item>DKLearnsPop</item><!--乱弹琴-->
+        <item>klexraxmusic</item><!--狂喜之诗-->
+        <item>1song</item><!--那些年听过的歌-->
+        <item>dingj</item><!--人生何处不flop-->
+    </string-array>
+
+    <string-array name="financial_ids">
+        <item>agBJB</item><!--A股收盘小笔记-->
+        <item>delta</item><!--Dynamic Delta - Pure Alpha-->
+        <item>chenqin</item><!--Clean Data-->
+        <item>finance</item><!--闻见异辞-->
+        <item>jingjixue</item><!--学点经济学-->
+        <item>spoon</item><!--漫步金融街-->
+        <item>wontfallinyourlap</item><!--天上不会掉馅饼-->
+        <item>invest</item><!--价值发现-->
+        <item>sailv</item><!--Sai.L和大家聊金融的地方-->
+        <item>wayneshiong</item><!--创业ing-->
+    </string-array>
+</resources>

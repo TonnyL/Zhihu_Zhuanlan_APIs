@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="com.marktony.zhuanlan.ui.AboutActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginLeft="16dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="32dp"
+                        android:text="知乎专栏"
+                        android:gravity="center_vertical"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="64dp"
+                        android:text="版本:1.0.0"
+                        android:gravity="center_vertical"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="64dp"
+                        android:orientation="vertical"
+                        android:id="@+id/LL_rate">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="32dp"
+                            android:text="为知乎专栏App评分"
+                            android:gravity="center_vertical"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="32dp"
+                            android:text="如果你喜欢知乎专栏App,那么请为商店中为它评分吧"
+                            android:gravity="top"
+                            android:textSize="10sp"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginLeft="16dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="32dp"
+                        android:text="作者"
+                        android:gravity="center_vertical"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="64dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="32dp"
+                            android:text="黎赵太郎"
+                            android:gravity="center_vertical"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="32dp"
+                            android:text="湖南,长沙"
+                            android:gravity="top"
+                            android:textSize="10sp"/>
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="64dp"
+                        android:id="@+id/tv_github"
+                        android:text="在GitHub关注我"
+                        android:gravity="center_vertical"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="64dp"
+                        android:id="@+id/tv_zhihu"
+                        android:text="在知乎关注我"
+                        android:gravity="center_vertical"/>
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginLeft="16dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="32dp"
+                        android:text="支持"
+                        android:gravity="center_vertical"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="64dp"
+                        android:orientation="vertical"
+                        android:id="@+id/LL_bugs">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="32dp"
+                            android:text="反馈BUG / 建议"
+                            android:gravity="center_vertical"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="32dp"
+                            android:text="帮助我改进知乎专栏App"
+                            android:gravity="top"
+                            android:textSize="10sp"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="64dp"
+                        android:orientation="vertical"
+                        android:id="@+id/LL_support">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="32dp"
+                            android:text="请我喝杯咖啡"
+                            android:gravity="center_vertical"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="32dp"
+                            android:text="如果你认同我的工作,可以请我喝杯咖啡支持一下"
+                            android:gravity="top"
+                            android:textSize="10sp"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</android.support.design.widget.CoordinatorLayout>

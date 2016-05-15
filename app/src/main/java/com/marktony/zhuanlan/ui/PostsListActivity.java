@@ -6,7 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.android.volley.Request;
@@ -47,6 +48,9 @@ public class PostsListActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String slug = intent.getStringExtra("slug");
+        String title = intent.getStringExtra("title");
+
+        getSupportActionBar().setTitle(title);
 
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, "https://zhuanlan.zhihu.com/api/columns/" + slug + "/posts?limit=10&offset=0", new Response.Listener<JSONArray>() {
             @Override
@@ -95,6 +99,17 @@ public class PostsListActivity extends AppCompatActivity {
 
         Volley.newRequestQueue(getApplicationContext()).add(request);
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+        if (id == android.R.id.home){
+            onBackPressed();
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private void initViews() {

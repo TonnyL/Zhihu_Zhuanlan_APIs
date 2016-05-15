@@ -5,9 +5,9 @@
         <item
             android:id="@+id/nav_tech"
             android:icon="@drawable/ic_photo_cloud"
-            android:title="科技·互联网" />
+            android:title="产品·互联网" />
         <item
-            android:id="@+id/nav_tourism_photograph"
+            android:id="@+id/nav_tourism_photography"
             android:icon="@drawable/ic_photo_camera"
             android:title="旅行·摄影" />
         <item
@@ -16,7 +16,7 @@
             android:title="音乐·影视" />
         <item
             android:id="@+id/nav_life"
-            android:icon="@drawable/ic_photo_cloud"
+            android:icon="@drawable/ic_photo_life"
             android:title="生活·杂谈" />
         <item
             android:id="@+id/nav_psychology"
@@ -26,19 +26,15 @@
             android:id="@+id/nav_financial"
             android:icon="@drawable/ic_photo_financial"
             android:title="创业·金融" />
-        <item android:id="@+id/nav_about_zhihu"
+        <item android:id="@+id/nav_zhihu"
             android:icon="@drawable/ic_photo_computer"
-            android:title="知乎相关" />
+            android:title="知乎·程序员" />
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="Others">
         <menu>
             <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_photo_settings"
-                android:title="设置" />
-            <item
-                android:id="@+id/nav_send"
+                android:id="@+id/nav_about"
                 android:icon="@drawable/ic_photo_info"
                 android:title="关于" />
         </menu>

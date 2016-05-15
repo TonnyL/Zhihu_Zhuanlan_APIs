@@ -30,9 +30,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by lizhaotailang on 2016/5/14.
+ * Created by lizhaotailang on 2016/5/15.
  */
-public class TourismFragment extends Fragment {
+public class FinancialFragment extends Fragment {
 
     private RecyclerView rvMain;
     private SwipeRefreshLayout refreshLayout;
@@ -53,7 +53,7 @@ public class TourismFragment extends Fragment {
 
         layoutManager = new LinearLayoutManager(getActivity());
 
-        ids = getActivity().getResources().getStringArray(R.array.photography_ids);
+        ids = getActivity().getResources().getStringArray(R.array.financial_ids);
     }
 
     @Nullable

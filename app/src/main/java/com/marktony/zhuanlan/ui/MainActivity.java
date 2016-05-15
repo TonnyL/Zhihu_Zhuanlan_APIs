@@ -1,5 +1,6 @@
 package com.marktony.zhuanlan.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -27,7 +28,8 @@ public class MainActivity extends AppCompatActivity
 
         initViews();
 
-        TechFragment techFragment = new TechFragment();
+        navigationView.setCheckedItem(R.id.nav_tech);
+        InternetFragment techFragment = new InternetFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.main_container,techFragment).commit();
     }
 
@@ -56,7 +58,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_copyright) {
             return true;
         }
 
@@ -70,19 +72,29 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_tech) {
-            // Handle the camera action
-        } else if (id == R.id.nav_tourism_photograph) {
-
+            InternetFragment techFragment = new InternetFragment();
+            getSupportFragmentManager().beginTransaction().replace(R.id.main_container,techFragment).commit();
+        } else if (id == R.id.nav_tourism_photography) {
+            TourismFragment fragment = new TourismFragment();
+            getSupportFragmentManager().beginTransaction().replace(R.id.main_container,fragment).commit();
         } else if (id == R.id.nav_music_film) {
-
+            MusicFilmFragment fragment = new MusicFilmFragment();
+            getSupportFragmentManager().beginTransaction().replace(R.id.main_container,fragment).commit();
         } else if (id == R.id.nav_life) {
-
+            LifeFragment fragment = new LifeFragment();
+            getSupportFragmentManager().beginTransaction().replace(R.id.main_container,fragment).commit();
         } else if (id == R.id.nav_psychology) {
-
+            PsychologyFragment fragment = new PsychologyFragment();
+            getSupportFragmentManager().beginTransaction().replace(R.id.main_container,fragment).commit();
         } else if (id == R.id.nav_financial) {
-
-        } else if (id == R.id.nav_about_zhihu){
-
+            FinancialFragment fragment = new FinancialFragment();
+            getSupportFragmentManager().beginTransaction().replace(R.id.main_container,fragment).commit();
+        } else if (id == R.id.nav_zhihu){
+            ZhihuFragment fragment = new ZhihuFragment();
+            getSupportFragmentManager().beginTransaction().replace(R.id.main_container,fragment).commit();
+        } else if (id == R.id.nav_about){
+            Intent intent = new Intent(MainActivity.this,AboutActivity.class);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

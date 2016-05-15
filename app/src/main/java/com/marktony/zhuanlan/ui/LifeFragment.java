@@ -30,9 +30,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by lizhaotailang on 2016/5/13.
+ * Created by lizhaotailang on 2016/5/15.
  */
-public class TechFragment extends Fragment {
+public class LifeFragment extends Fragment {
 
     private RecyclerView rvMain;
     private SwipeRefreshLayout refreshLayout;
@@ -53,7 +53,7 @@ public class TechFragment extends Fragment {
 
         layoutManager = new LinearLayoutManager(getActivity());
 
-        ids = getActivity().getResources().getStringArray(R.array.tech_ids);
+        ids = getActivity().getResources().getStringArray(R.array.life_talks_ids);
     }
 
     @Nullable
@@ -95,6 +95,7 @@ public class TechFragment extends Fragment {
                                 public void OnClick(View v, int position) {
                                     Intent intent = new Intent(getContext(),PostsListActivity.class);
                                     intent.putExtra("slug",list.get(position).getSlug());
+                                    intent.putExtra("title",list.get(position).getName());
                                     startActivity(intent);
                                 }
                             });
@@ -147,5 +148,4 @@ public class TechFragment extends Fragment {
         refreshLayout.setSize(SwipeRefreshLayout.DEFAULT);
 
     }
-
 }
