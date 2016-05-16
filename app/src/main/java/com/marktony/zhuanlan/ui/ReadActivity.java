@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -37,6 +36,9 @@ public class ReadActivity extends AppCompatActivity {
 
     private MaterialDialog progressDialog;
 
+    private String slug;
+    private String title;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,8 +49,8 @@ public class ReadActivity extends AppCompatActivity {
         Intent intent = getIntent();
 
         String imgUrl = intent.getStringExtra("img_url");
-        String title = intent.getStringExtra("title");
-        String slug = intent.getStringExtra("slug");
+        title = intent.getStringExtra("title");
+        slug = intent.getStringExtra("slug");
 
         setCollapsingToolbarLayoutTitle(title);
 
@@ -61,7 +63,7 @@ public class ReadActivity extends AppCompatActivity {
 
         progressDialog = new MaterialDialog.Builder(ReadActivity.this)
                 .progress(true,0)
-                .content("加载中")
+                .content(R.string.loading)
                 .build();
 
         progressDialog.show();
@@ -82,6 +84,13 @@ public class ReadActivity extends AppCompatActivity {
                 wbMain.loadUrl(url);
                 return true;
             }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+
+                progressDialog.dismiss();
+            }
         });
 
         JsonObjectRequest re  = new JsonObjectRequest(Request.Method.GET, "https://zhuanlan.zhihu.com/api/posts/" + slug, new Response.Listener<JSONObject>() {
@@ -101,7 +110,6 @@ public class ReadActivity extends AppCompatActivity {
 
                     wbMain.loadDataWithBaseURL(null,html,"text/html","utf-8",null);
 
-                    progressDialog.dismiss();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -109,7 +117,7 @@ public class ReadActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                progressDialog.dismiss();
+
             }
         });
 
@@ -118,8 +126,10 @@ public class ReadActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent shareIntent = new Intent().setAction(Intent.ACTION_SEND).setType("text/plain");
+                String shareText = title + "https://zhuanlan.zhihu.com/api/posts/" + slug;
+                shareIntent.putExtra(Intent.EXTRA_TEXT,shareText);
+                startActivity(Intent.createChooser(shareIntent,getString(R.string.share_to)));
             }
         });
     }

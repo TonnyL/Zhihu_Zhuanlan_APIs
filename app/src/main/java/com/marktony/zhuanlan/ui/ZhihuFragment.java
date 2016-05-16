@@ -21,6 +21,7 @@ import com.android.volley.toolbox.Volley;
 import com.marktony.zhuanlan.R;
 import com.marktony.zhuanlan.adapter.ZhuanlanAdapter;
 import com.marktony.zhuanlan.bean.ZhuanlanItem;
+import com.marktony.zhuanlan.utils.API;
 import com.marktony.zhuanlan.utils.OnRecyclerViewOnClickListener;
 
 import org.json.JSONException;
@@ -42,7 +43,6 @@ public class ZhihuFragment extends Fragment {
     private LinearLayoutManager layoutManager;
 
     private String[] ids;
-    private String baseUrl = "https://zhuanlan.zhihu.com/api/columns/";
 
 
     @Override
@@ -73,7 +73,7 @@ public class ZhihuFragment extends Fragment {
         for (int i = 0;i < ids.length; i++) {
 
             final int finalI = i;
-            JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, baseUrl + ids[i], new Response.Listener<JSONObject>() {
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, API.BASE_URL + ids[i], new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject jsonObject) {
                     try {
@@ -106,6 +106,8 @@ public class ZhihuFragment extends Fragment {
                                     refreshLayout.setRefreshing(false);
                                 }
                             });
+
+                            refreshLayout.setEnabled(false);
                         }
 
 
@@ -122,6 +124,8 @@ public class ZhihuFragment extends Fragment {
                             refreshLayout.setRefreshing(false);
                         }
                     });
+
+                    refreshLayout.setEnabled(false);
                 }
             });
 

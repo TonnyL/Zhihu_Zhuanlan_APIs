@@ -18,6 +18,7 @@ import com.android.volley.toolbox.Volley;
 import com.marktony.zhuanlan.R;
 import com.marktony.zhuanlan.adapter.PostsAdapter;
 import com.marktony.zhuanlan.bean.PostItem;
+import com.marktony.zhuanlan.utils.API;
 import com.marktony.zhuanlan.utils.OnRecyclerViewOnClickListener;
 
 import org.json.JSONArray;
@@ -52,7 +53,7 @@ public class PostsListActivity extends AppCompatActivity {
 
         getSupportActionBar().setTitle(title);
 
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, "https://zhuanlan.zhihu.com/api/columns/" + slug + "/posts?limit=20&offset=0", new Response.Listener<JSONArray>() {
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, API.BASE_URL + slug + "/posts?limit=20&offset=0", new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray jsonArray) {
 
