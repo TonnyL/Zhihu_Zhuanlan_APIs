@@ -1,3 +1,4 @@
+
 package com.marktony.zhuanlan.ui;
 
 import android.content.Intent;
@@ -6,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -52,7 +52,7 @@ public class PostsListActivity extends AppCompatActivity {
 
         getSupportActionBar().setTitle(title);
 
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, "https://zhuanlan.zhihu.com/api/columns/" + slug + "/posts?limit=10&offset=0", new Response.Listener<JSONArray>() {
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, "https://zhuanlan.zhihu.com/api/columns/" + slug + "/posts?limit=20&offset=0", new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray jsonArray) {
 

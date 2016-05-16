@@ -48,13 +48,14 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="32dp"
-                        android:text="知乎专栏"
-                        android:gravity="center_vertical"/>
+                        android:text="@string/app_name"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/colorPrimary"/>
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="64dp"
-                        android:text="版本:1.0.0"
+                        android:text="@string/version"
                         android:gravity="center_vertical"/>
 
                     <LinearLayout
@@ -66,15 +67,15 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="32dp"
-                            android:text="为知乎专栏App评分"
+                            android:text="@string/rate"
                             android:gravity="center_vertical"/>
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="32dp"
-                            android:text="如果你喜欢知乎专栏App,那么请为商店中为它评分吧"
+                            android:text="@string/rate_description"
                             android:gravity="top"
-                            android:textSize="10sp"/>
+                            android:textSize="@dimen/little_text_size"/>
 
                     </LinearLayout>
 
@@ -99,8 +100,9 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="32dp"
-                        android:text="作者"
-                        android:gravity="center_vertical"/>
+                        android:text="@string/author"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/colorPrimary"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -110,15 +112,15 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="32dp"
-                            android:text="黎赵太郎"
+                            android:text="@string/author_name"
                             android:gravity="center_vertical"/>
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="32dp"
-                            android:text="湖南,长沙"
+                            android:text="@string/author_description"
                             android:gravity="top"
-                            android:textSize="10sp"/>
+                            android:textSize="@dimen/little_text_size"/>
 
                     </LinearLayout>
 
@@ -126,13 +128,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="64dp"
                         android:id="@+id/tv_github"
-                        android:text="在GitHub关注我"
+                        android:text="@string/follow_on_github"
                         android:gravity="center_vertical"/>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="64dp"
                         android:id="@+id/tv_zhihu"
-                        android:text="在知乎关注我"
+                        android:text="@string/follow_on_zhihu"
                         android:gravity="center_vertical"/>
 
                 </LinearLayout>
@@ -156,8 +158,9 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="32dp"
-                        android:text="支持"
-                        android:gravity="center_vertical"/>
+                        android:text="@string/support"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/colorPrimary"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -168,15 +171,15 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="32dp"
-                            android:text="反馈BUG / 建议"
+                            android:text="@string/feedback_advice"
                             android:gravity="center_vertical"/>
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="32dp"
-                            android:text="帮助我改进知乎专栏App"
+                            android:text="@string/feedback_advice_description"
                             android:gravity="top"
-                            android:textSize="10sp"/>
+                            android:textSize="@dimen/little_text_size"/>
 
                     </LinearLayout>
 
@@ -189,15 +192,15 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="32dp"
-                            android:text="请我喝杯咖啡"
+                            android:text="@string/coffee"
                             android:gravity="center_vertical"/>
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="32dp"
-                            android:text="如果你认同我的工作,可以请我喝杯咖啡支持一下"
+                            android:text="@string/coffee_description"
                             android:gravity="top"
-                            android:textSize="10sp"/>
+                            android:textSize="@dimen/little_text_size"/>
 
                     </LinearLayout>
 

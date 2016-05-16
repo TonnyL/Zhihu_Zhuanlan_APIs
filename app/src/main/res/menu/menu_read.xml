@@ -5,6 +5,6 @@
     <item
         android:id="@+id/action_copyright"
         android:orderInCategory="100"
-        android:title="@string/action_settings"
+        android:title="@string/action_copyright"
         app:showAsAction="never" />
 </menu>

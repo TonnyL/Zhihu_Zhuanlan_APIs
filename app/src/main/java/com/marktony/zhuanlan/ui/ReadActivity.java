@@ -7,7 +7,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebSettings;
@@ -15,6 +14,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -34,6 +34,8 @@ public class ReadActivity extends AppCompatActivity {
     private WebView wbMain;
     private ImageView ivHeader;
     private CollapsingToolbarLayout toolbarLayout;
+
+    private MaterialDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +58,13 @@ public class ReadActivity extends AppCompatActivity {
         } else {
             Glide.with(ReadActivity.this).load(imgUrl).centerCrop().into(ivHeader);
         }
+
+        progressDialog = new MaterialDialog.Builder(ReadActivity.this)
+                .progress(true,0)
+                .content("加载中")
+                .build();
+
+        progressDialog.show();
 
         wbMain.getSettings().setJavaScriptEnabled(true);
         //缩放,设置为不能缩放可以防止页面上出现放大和缩小的图标
@@ -91,6 +100,8 @@ public class ReadActivity extends AppCompatActivity {
                             + "</body>\n</html>";
 
                     wbMain.loadDataWithBaseURL(null,html,"text/html","utf-8",null);
+
+                    progressDialog.dismiss();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -98,7 +109,7 @@ public class ReadActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-
+                progressDialog.dismiss();
             }
         });
 

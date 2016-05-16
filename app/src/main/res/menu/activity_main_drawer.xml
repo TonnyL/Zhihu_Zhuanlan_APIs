@@ -5,38 +5,38 @@
         <item
             android:id="@+id/nav_tech"
             android:icon="@drawable/ic_photo_cloud"
-            android:title="产品·互联网" />
+            android:title="@string/nav_product_internet" />
         <item
             android:id="@+id/nav_tourism_photography"
             android:icon="@drawable/ic_photo_camera"
-            android:title="旅行·摄影" />
+            android:title="@string/nav_tourism_photo" />
         <item
             android:id="@+id/nav_music_film"
             android:icon="@drawable/ic_photo_music"
-            android:title="音乐·影视" />
+            android:title="@string/nav_music_film" />
         <item
             android:id="@+id/nav_life"
             android:icon="@drawable/ic_photo_life"
-            android:title="生活·杂谈" />
+            android:title="@string/nav_life_talking" />
         <item
             android:id="@+id/nav_psychology"
             android:icon="@drawable/ic_photo_emotion"
-            android:title="情感·心理" />
+            android:title="@string/nav_emotion_psychology" />
         <item
             android:id="@+id/nav_financial"
             android:icon="@drawable/ic_photo_financial"
-            android:title="创业·金融" />
+            android:title="@string/nav_financial" />
         <item android:id="@+id/nav_zhihu"
             android:icon="@drawable/ic_photo_computer"
-            android:title="知乎·程序员" />
+            android:title="@string/nav_zhihu_coder" />
     </group>
 
-    <item android:title="Others">
+    <item android:title="@string/others">
         <menu>
             <item
                 android:id="@+id/nav_about"
                 android:icon="@drawable/ic_photo_info"
-                android:title="关于" />
+                android:title="@string/title_activity_about" />
         </menu>
     </item>
 
