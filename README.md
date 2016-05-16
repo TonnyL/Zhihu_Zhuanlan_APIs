@@ -4,10 +4,10 @@
 知乎专栏API分析[戳这里](!http://marktony.github.io/2016/05/14/%E7%9F%A5%E4%B9%8E%E4%B8%93%E6%A0%8FAPI%E5%88%86%E6%9E%90/)
 
 ### 截图
-![0](https://github.com/marktony/zhuanlan/blob/master/screenshoots/0.png)
-![1](https://github.com/marktony/zhuanlan/blob/master/screenshoots/1.png)
-![2](https://github.com/marktony/zhuanlan/blob/master/screenshoots/2.png)
-![3](https://github.com/marktony/zhuanlan/blob/master/screenshoots/3.png)
+![0](https://github.com/marktony/zhuanlan/blob/master/screenshots/0.png)
+![1](https://github.com/marktony/zhuanlan/blob/master/screenshots/1.png)
+![2](https://github.com/marktony/zhuanlan/blob/master/screenshots/2.png)
+![3](https://github.com/marktony/zhuanlan/blob/master/screenshots/3.png)
 
 ### 许可证
 ```
