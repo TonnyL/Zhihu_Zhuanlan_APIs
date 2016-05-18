@@ -3,6 +3,7 @@ package com.marktony.zhuanlan.ui;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -140,5 +141,10 @@ public class AboutActivity extends AppCompatActivity {
         layoutSupport = (LinearLayout) findViewById(R.id.LL_support);
         tvGitHub = (TextView) findViewById(R.id.tv_github);
         tvZhihu = (TextView) findViewById(R.id.tv_zhihu);
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
     }
 }

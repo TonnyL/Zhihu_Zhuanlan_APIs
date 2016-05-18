@@ -44,6 +44,8 @@ public class InternetFragment extends Fragment {
 
     private String[] ids;
 
+    private static final String TAG = "TAG";
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -128,6 +130,7 @@ public class InternetFragment extends Fragment {
                 }
             });
 
+            request.setTag(TAG);
             queue.add(request);
 
         }
@@ -152,4 +155,12 @@ public class InternetFragment extends Fragment {
 
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        if (queue != null){
+            queue.cancelAll(TAG);
+        }
+    }
 }

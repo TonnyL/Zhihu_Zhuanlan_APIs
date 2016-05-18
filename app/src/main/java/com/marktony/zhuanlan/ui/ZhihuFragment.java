@@ -44,6 +44,7 @@ public class ZhihuFragment extends Fragment {
 
     private String[] ids;
 
+    private static final String TAG = "TAG";
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -129,6 +130,7 @@ public class ZhihuFragment extends Fragment {
                 }
             });
 
+            request.setTag(TAG);
             queue.add(request);
 
         }
@@ -151,5 +153,14 @@ public class ZhihuFragment extends Fragment {
         //设置下拉刷新按钮的大小
         refreshLayout.setSize(SwipeRefreshLayout.DEFAULT);
 
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        if (queue != null){
+            queue.cancelAll(TAG);
+        }
     }
 }
