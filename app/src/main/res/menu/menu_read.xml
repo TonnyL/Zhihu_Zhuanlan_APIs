@@ -5,10 +5,10 @@
     <item
         android:id="@+id/action_likes"
         android:orderInCategory="100"
-        android:title="赞"
+        android:title="@string/likes"
         app:showAsAction="never" />
     <item android:id="@+id/action_comments"
         android:orderInCategory="99"
-        android:title="评论"
+        android:title="@string/comments"
         app:showAsAction="never" />
 </menu>

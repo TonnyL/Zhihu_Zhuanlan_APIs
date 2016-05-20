@@ -178,9 +178,11 @@ public class ReadActivity extends AppCompatActivity {
         int id = item.getItemId();
         if (id == android.R.id.home){
             onBackPressed();
-        } else if (id == R.id.action_likes){
+        }
 
-        } else if (id == R.id.action_comments){
+        if (id == R.id.action_comments){
+
+            startActivity(new Intent(ReadActivity.this,CommentActivity.class).putExtra("id",slug));
 
         }
 
@@ -189,6 +191,10 @@ public class ReadActivity extends AppCompatActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
+        String temp = getResources().getString(R.string.likes) + ":" + likesCount;
+        menu.findItem(R.id.action_likes).setTitle(temp);
+        temp = getResources().getString(R.string.comments) + ":" + commentsCount;
+        menu.findItem(R.id.action_comments).setTitle(temp);
         return super.onPrepareOptionsMenu(menu);
     }
 

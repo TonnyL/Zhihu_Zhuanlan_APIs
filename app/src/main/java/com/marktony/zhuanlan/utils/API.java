@@ -7,4 +7,6 @@ public class API {
 
     public static String BASE_URL = "https://zhuanlan.zhihu.com/api/columns/";
 
+    public static String POST_URL = "https://zhuanlan.zhihu.com/api/posts/";
+
 }

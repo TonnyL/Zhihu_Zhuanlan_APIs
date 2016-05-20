@@ -46,4 +46,6 @@
     <string name="coffee_description">如果你认同我的工作,可以请我喝杯咖啡支持一下</string>
     <string name="loading">加载中</string>
     <string name="share_to">分享至</string>
+    <string name="likes">赞</string>
+    <string name="comments">评论</string>
 </resources>
