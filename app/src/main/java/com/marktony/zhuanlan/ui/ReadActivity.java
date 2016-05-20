@@ -7,6 +7,7 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebSettings;
@@ -39,6 +40,9 @@ public class ReadActivity extends AppCompatActivity {
 
     private String slug;
     private String title;
+
+    private String likesCount;
+    private String commentsCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,6 +115,9 @@ public class ReadActivity extends AppCompatActivity {
 
                     wbMain.loadDataWithBaseURL(null,html,"text/html","utf-8",null);
 
+                    likesCount = jsonObject.getString("likesCount");
+                    commentsCount = jsonObject.getString("commentsCount");
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -158,19 +165,37 @@ public class ReadActivity extends AppCompatActivity {
         toolbarLayout.setCollapsedTitleTextAppearance(R.style.CollapsedAppBarPlus1);
     }
 
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_read,menu);
+        return true;
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
         int id = item.getItemId();
         if (id == android.R.id.home){
             onBackPressed();
+        } else if (id == R.id.action_likes){
+
+        } else if (id == R.id.action_comments){
+
         }
 
         return super.onOptionsItemSelected(item);
     }
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
     }
+
+
 }
