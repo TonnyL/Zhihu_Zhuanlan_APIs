@@ -182,7 +182,10 @@ public class ReadActivity extends AppCompatActivity {
 
         if (id == R.id.action_comments){
 
-            startActivity(new Intent(ReadActivity.this,CommentActivity.class).putExtra("id",slug));
+            Intent intent = new Intent(ReadActivity.this,CommentActivity.class);
+            intent.putExtra("id",slug);
+            intent.putExtra("commentsCount",Integer.valueOf(commentsCount));
+            startActivity(intent);
 
         }
 
