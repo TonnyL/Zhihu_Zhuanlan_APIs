@@ -26,6 +26,8 @@ public class MainActivity extends AppCompatActivity
     private ActionBarDrawerToggle toggle;
     private NavigationView navigationView;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -117,6 +119,10 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_about){
             Intent intent = new Intent(MainActivity.this,AboutActivity.class);
             startActivity(intent);
+        } else if (id == R.id.nav_user_define){
+
+            replaceFragment(new UserDefineIdsFragment());
+
         }
 
 

@@ -1,9 +1,7 @@
 package com.marktony.zhuanlan.ui;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -39,8 +37,6 @@ public class CommentActivity extends AppCompatActivity {
 
     private  CommentsAdapter adapter;
 
-    private final int COMMENTS_MAX_COUNT = 60;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,7 +67,7 @@ public class CommentActivity extends AppCompatActivity {
                     //判断是否滚动到底部并且是向下滑动
                     if (lastVisibleItem == (totalItemCount - 1) && isSlidingToLast) {
 
-                        if ((list.size() < commentCount) && (list.size() < COMMENTS_MAX_COUNT)){
+                        if (list.size() < commentCount){
                             loadData(false);
                         } else {
                             Snackbar.make(rvComments,"没有更多了！",Snackbar.LENGTH_SHORT).show();

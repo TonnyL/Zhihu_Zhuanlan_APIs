@@ -27,11 +27,6 @@
             android:label="@string/title_activity_posts_list"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ui.ReadActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:label="@string/title_activity_read"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".ui.AboutActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/title_activity_about"
@@ -39,6 +34,12 @@
         <activity
             android:name=".ui.CommentActivity"
             android:label="@string/comments"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.ReadActivity"
+            android:label="@string/title_activity_read"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>
 

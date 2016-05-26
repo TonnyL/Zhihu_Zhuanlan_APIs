@@ -26,9 +26,14 @@
             android:id="@+id/nav_financial"
             android:icon="@drawable/ic_photo_financial"
             android:title="@string/nav_financial" />
-        <item android:id="@+id/nav_zhihu"
+        <item
+            android:id="@+id/nav_zhihu"
             android:icon="@drawable/ic_photo_computer"
             android:title="@string/nav_zhihu_coder" />
+
+        <item android:id="@+id/nav_user_define"
+            android:icon="@drawable/ic_photo_camera"
+            android:title="自定义"/>
     </group>
 
     <item android:title="@string/others">
