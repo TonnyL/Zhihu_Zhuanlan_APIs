@@ -72,6 +72,8 @@ public class UserDefineIdsFragment extends Fragment{
         db = dbHelper.getWritableDatabase();
 
         queue = Volley.newRequestQueue(getActivity().getApplicationContext());
+
+        layoutManager = new LinearLayoutManager(getActivity());
     }
 
     @Nullable
@@ -90,13 +92,18 @@ public class UserDefineIdsFragment extends Fragment{
         }
         cursor.close();
 
-        if (list.size() != 0){
-            tvUserDefine.setVisibility(View.GONE);
+        if (list.size() == 0){
+            tvUserDefine.setVisibility(View.VISIBLE);
         } else {
+
+            tvUserDefine.setVisibility(View.GONE);
+
             for (int i = 0; i < list.size(); i++){
+
                 JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, API.BASE_URL + list.get(i), new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject jsonObject) {
+
                         try {
                             String followersCount = jsonObject.getString("followersCount");
                             String description = jsonObject.getString("description");
@@ -117,7 +124,9 @@ public class UserDefineIdsFragment extends Fragment{
                                     intent.putExtra("slug",zhuanlanItemList.get(position).getSlug());
                                     intent.putExtra("title",zhuanlanItemList.get(position).getName());
                                     startActivity(intent);
+
                                 }
+
                             });
 
                         } catch (JSONException e) {
@@ -143,7 +152,7 @@ public class UserDefineIdsFragment extends Fragment{
                 final MaterialDialog dialog = new MaterialDialog.Builder(getActivity())
                         .title("添加账户")
                         .content("在下面输入专栏的ID，如wooyun")
-                        .inputType(InputType.TYPE_CLASS_TEXT)
+                        .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS)
                         .input("", "", new MaterialDialog.InputCallback() {
                             @Override
                             public void onInput(MaterialDialog dialog, CharSequence input) {
@@ -153,19 +162,32 @@ public class UserDefineIdsFragment extends Fragment{
 
                 dialog.setActionButton(DialogAction.NEGATIVE,R.string.cancel);
                 dialog.setActionButton(DialogAction.POSITIVE,R.string.ok);
+                dialog.setActionButton(DialogAction.NEUTRAL, R.string.zhuanlan_id_help);
 
-                View nega = dialog.getActionButton(DialogAction.NEGATIVE);
-                View posi = dialog.getActionButton(DialogAction.POSITIVE);
-
-                nega.setOnClickListener(new View.OnClickListener() {
+                dialog.getActionButton(DialogAction.NEUTRAL).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Snackbar.make(fab,"quxiao",Snackbar.LENGTH_SHORT).show();
-                        dialog.dismiss();
+
+                        // 监听输入面板的情况，如果激活则隐藏
+                        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                        if (imm.isActive()) {
+                            imm.hideSoftInputFromWindow(fab.getWindowToken(), 0);
+                        }
+                        startActivity(new Intent(getContext(),AddIdHelpActivity.class));
+
                     }
                 });
 
-                posi.setOnClickListener(new View.OnClickListener() {
+                dialog.getActionButton(DialogAction.NEGATIVE).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        dialog.dismiss();
+
+                    }
+                });
+
+                dialog.getActionButton(DialogAction.POSITIVE).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
@@ -177,6 +199,23 @@ public class UserDefineIdsFragment extends Fragment{
                                @Override
                                public void onResponse(JSONObject jsonObject) {
 
+                                   try {
+                                       String followersCount = jsonObject.getString("followersCount");
+                                       String description = jsonObject.getString("description");
+                                       String avatar = "https://pic2.zhimg.com/" + jsonObject.getJSONObject("avatar").getString("id") + "_l.jpg";
+                                       String slug = jsonObject.getString("slug");
+                                       String name = jsonObject.getString("name");
+                                       String postCount = jsonObject.getString("postsCount");
+
+                                       ZhuanlanItem item = new ZhuanlanItem(name,slug,avatar,followersCount,postCount,description);
+
+                                       zhuanlanItemList.add(item);
+                                       adapter.notifyItemInserted(zhuanlanItemList.size()-1);
+
+                                   } catch (JSONException e) {
+                                       e.printStackTrace();
+                                   }
+
                                    // 向数据库中插入数据
                                    ContentValues values = new ContentValues();
                                    values.put("zhuanlanID",input);
@@ -184,7 +223,6 @@ public class UserDefineIdsFragment extends Fragment{
 
                                    values.clear();
 
-                                   Snackbar.make(fab,input,Snackbar.LENGTH_SHORT).show();
                                    // 监听输入面板的情况，如果激活则隐藏
                                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                                    if (imm.isActive()) {
@@ -195,7 +233,8 @@ public class UserDefineIdsFragment extends Fragment{
                             }, new Response.ErrorListener() {
                                @Override
                                 public void onErrorResponse(VolleyError volleyError) {
-                                    Log.d("error",volleyError.toString());
+
+                                   Snackbar.make(fab,"ID输入错误",Snackbar.LENGTH_SHORT).show();
 
                                 }
                             });
@@ -221,6 +260,7 @@ public class UserDefineIdsFragment extends Fragment{
         tvUserDefine = (TextView) view.findViewById(R.id.tv_user_define);
         fab = (FloatingActionButton) view.findViewById(R.id.fab);
         rvMain = (RecyclerView) view.findViewById(R.id.recycler_view);
+        rvMain.setLayoutManager(layoutManager);
 
     }
 

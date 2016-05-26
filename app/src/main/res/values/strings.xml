@@ -49,4 +49,6 @@
     <string name="likes">赞</string>
     <string name="comments">评论</string>
     <string name="add_id_description">当前没有已添加的专栏，点击加号按钮添加</string>
+    <string name="zhuanlan_id_help">什么是专栏的ID</string>
+    <string name="title_activity_add_id_help">AddIdHelpActivity</string>
 </resources>
