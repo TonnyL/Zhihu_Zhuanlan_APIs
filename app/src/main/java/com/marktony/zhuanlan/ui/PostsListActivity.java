@@ -1,9 +1,10 @@
-
 package com.marktony.zhuanlan.ui;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
@@ -33,10 +35,15 @@ public class PostsListActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
     private RecyclerView rvPosts;
+    private SwipeRefreshLayout refreshLayout;
 
     private List<PostItem> list = new ArrayList<PostItem>();
     private LinearLayoutManager manager;
     private PostsAdapter adapter;
+
+    private static final String TAG = "TAG";
+
+    private RequestQueue queue;
 
 
     @Override
@@ -45,6 +52,15 @@ public class PostsListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_posts_list);
 
         initViews();
+
+        refreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                refreshLayout.setRefreshing(true);
+            }
+        });
+
+        queue = Volley.newRequestQueue(getApplicationContext());
 
         Intent intent = getIntent();
         String slug = intent.getStringExtra("slug");
@@ -89,15 +105,30 @@ public class PostsListActivity extends AppCompatActivity {
                     }
                 });
 
+                refreshLayout.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        refreshLayout.setRefreshing(false);
+                    }
+                });
+
+                refreshLayout.setEnabled(false);
+
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-
+                refreshLayout.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        refreshLayout.setRefreshing(false);
+                    }
+                });
             }
         });
 
-        Volley.newRequestQueue(getApplicationContext()).add(request);
+        request.setTag(TAG);
+        queue.add(request);
 
     }
 
@@ -117,14 +148,37 @@ public class PostsListActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        refreshLayout = (SwipeRefreshLayout) findViewById(R.id.refresh);
 
         rvPosts = (RecyclerView) findViewById(R.id.rv_posts);
         manager = new LinearLayoutManager(PostsListActivity.this);
         rvPosts.setLayoutManager(manager);
+
+        //设置下拉刷新的按钮的颜色
+        refreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
+        //设置手指在屏幕上下拉多少距离开始刷新
+        refreshLayout.setDistanceToTriggerSync(300);
+        //设置下拉刷新按钮的背景颜色
+        refreshLayout.setProgressBackgroundColorSchemeColor(Color.WHITE);
+        //设置下拉刷新按钮的大小
+        refreshLayout.setSize(SwipeRefreshLayout.DEFAULT);
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        if (queue != null){
+            queue.cancelAll(TAG);
+        }
+
+        if (refreshLayout.isRefreshing()){
+            refreshLayout.setRefreshing(false);
+        }
     }
 }
