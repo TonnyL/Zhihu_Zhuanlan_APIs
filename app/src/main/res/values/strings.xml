@@ -1,27 +1,19 @@
 <resources>
+
     <string name="app_name">知乎专栏</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="action_copyright">版权声明</string>
-    <string name="title_activity_posts_list">专栏</string>
-    <string name="title_activity_read">阅读</string>
-    <string name="title_activity_about">关于</string>
-    <string name="donate">捐赠</string>
-    <string name="cancel">取消</string>
+
+    <!--常用--><!--common-->
     <string name="ok">确定</string>
-    <string name="donate_content">支付宝账号将会复制到粘贴板，进入支付宝可直接粘贴完成捐赠，感谢您的支持！</string>
-    <string name="copyright_content">本App所使用的所有API均由 知乎(Zhihu.Inc) 提供，Github用户黎赵太郎(marklztl)采取非正常手段获取。获取与共享之行为或有侵犯知乎权益的嫌疑。若被告知需停止共享与使用，黎赵太郎会及时删除页面与整个项目。请您暸解相关情况，并遵守知乎协议。</string>
+    <string name="cancel">取消</string>
     <string name="got_it">知道了</string>
-    <string name="github_url">https://github.com/marktony</string>
-    <string name="zhihu_url">https://www.zhihu.com/people/kirin-momo</string>
-    <string name="no_mail_app">没有安装邮件类App</string>
-    <string name="sdk_version">SDK版本:</string>
-    <string name="device_model">设备型号:</string>
-    <string name="mail_subject">知乎专栏App使用反馈于建议</string>
-    <string name="mail_account">mailto:marktonymengyi@gmail.com</string>
-    <string name="no_market_app">没有安装市场类App</string>
+    <string name="loading">加载中</string>
+
+
+    <!--navigation drawer-->
     <string name="nav_product_internet">产品·互联网</string>
     <string name="nav_tourism_photo">旅行·摄影</string>
     <string name="nav_music_film">音乐·影视</string>
@@ -30,10 +22,40 @@
     <string name="nav_financial">创业·金融</string>
     <string name="nav_zhihu_coder">知乎·程序员</string>
     <string name="others">Others</string>
+    <string name="nav_user_define">自定义</string>
+    <!--其中关于引用title_activity_about-->
+    <!--the nav about reference title_activity_about-->
+    <!--navigation drawer end-->
+
+
+    <!--main option menu-->
+    <string name="action_copyright">版权声明</string>
+    <!--main option menu end-->
+
+
+    <!--activity read-->
+    <string name="title_activity_read">阅读</string>
+    <string name="share_to">分享至</string>
+
+
+    <!--activity about-->
+    <string name="title_activity_posts_list">专栏</string>
+    <string name="title_activity_about">关于</string>
+    <string name="donate">捐赠</string>
+    <string name="donate_content">支付宝账号将会复制到粘贴板，进入支付宝可直接粘贴完成捐赠，感谢您的支持！</string>
+    <string name="copyright_content">本App所使用的所有API均由 知乎(Zhihu.Inc) 提供，Github用户黎赵太郎(marklztl)采取非正常手段获取。获取与共享之行为或有侵犯知乎权益的嫌疑。若被告知需停止共享与使用，黎赵太郎会及时删除页面与整个项目。请您暸解相关情况，并遵守知乎协议。</string>
+    <string name="github_url">https://github.com/marktony</string>
+    <string name="zhihu_url">https://www.zhihu.com/people/kirin-momo</string>
+    <string name="no_mail_app">没有安装邮件类App</string>
+    <string name="sdk_version">SDK版本:</string>
+    <string name="device_model">设备型号:</string>
+    <string name="mail_subject">知乎专栏App使用反馈于建议</string>
+    <string name="mail_account">mailto:marktonymengyi@gmail.com</string>
+    <string name="no_market_app">没有安装市场类App</string>
     <string name="donate_account">18627441225</string>
-    <string name="version">版本:1.1.0</string>
+    <string name="version">版本:1.2.0</string>
     <string name="rate">为知乎专栏App评分</string>
-    <string name="rate_description">如果你喜欢知乎专栏App,那么请为商店中为它评分吧</string>
+    <string name="rate_description">如果你喜欢知乎专栏App,那么请在商店中为它评分吧</string>
     <string name="author">作者</string>
     <string name="author_name">黎赵太郎</string>
     <string name="author_description">湖南,长沙</string>
@@ -44,11 +66,22 @@
     <string name="feedback_advice_description">帮助我改进知乎专栏App</string>
     <string name="coffee">请我喝杯咖啡</string>
     <string name="coffee_description">如果你认同我的工作,可以请我喝杯咖啡支持一下</string>
-    <string name="loading">加载中</string>
-    <string name="share_to">分享至</string>
+    <!--activity about end-->
+
+
+    <!--activity zhuanlan list-->
     <string name="likes">赞</string>
     <string name="comments">评论</string>
+
+
+    <!--add zhuanlan id-->
     <string name="add_id_description">当前没有已添加的专栏，点击加号按钮添加</string>
     <string name="zhuanlan_id_help">什么是专栏的ID</string>
-    <string name="title_activity_add_id_help">AddIdHelpActivity</string>
+    <string name="add_zhuanlan_id_help">http://marktony.github.io/2016/05/27/%E5%85%B3%E4%BA%8E%E7%9F%A5%E4%B9%8E%E4%B8%93%E6%A0%8FID%E7%9A%84%E4%B8%80%E4%BA%9B%E8%AF%B4%E6%98%8E/</string>
+    <string name="add_zhuanlan_id_error">ID输入错误</string>
+    <string name="add_zhuanlan_id">添加专栏ID</string>
+    <string name="add_zhuanlan_id_description">在下面输入专栏的ID，如wooyun</string>
+    <!--add zhuanlan id end-->
+
+
 </resources>

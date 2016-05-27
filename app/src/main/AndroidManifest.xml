@@ -41,10 +41,6 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/title_activity_read"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".ui.AddIdHelpActivity"
-            android:label="@string/title_activity_add_id_help"
-            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

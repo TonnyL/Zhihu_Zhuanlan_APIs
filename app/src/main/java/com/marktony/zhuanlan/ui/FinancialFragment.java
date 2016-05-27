@@ -162,5 +162,14 @@ public class FinancialFragment extends Fragment {
         if (queue != null){
             queue.cancelAll(TAG);
         }
+
+        if (refreshLayout.isRefreshing()){
+            refreshLayout.post(new Runnable() {
+                @Override
+                public void run() {
+                    refreshLayout.setRefreshing(false);
+                }
+            });
+        }
     }
 }

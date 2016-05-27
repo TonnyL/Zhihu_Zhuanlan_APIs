@@ -44,8 +44,6 @@ public class PostsListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_posts_list);
 
-        manager = new LinearLayoutManager(PostsListActivity.this);
-
         initViews();
 
         Intent intent = getIntent();
@@ -121,6 +119,7 @@ public class PostsListActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         rvPosts = (RecyclerView) findViewById(R.id.rv_posts);
+        manager = new LinearLayoutManager(PostsListActivity.this);
         rvPosts.setLayoutManager(manager);
     }
 

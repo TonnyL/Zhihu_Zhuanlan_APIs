@@ -5,15 +5,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.InputType;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +29,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.marktony.zhuanlan.R;
 import com.marktony.zhuanlan.adapter.ZhuanlanAdapter;
@@ -35,6 +36,7 @@ import com.marktony.zhuanlan.bean.ZhuanlanItem;
 import com.marktony.zhuanlan.db.MyDataBaseHelper;
 import com.marktony.zhuanlan.utils.API;
 import com.marktony.zhuanlan.utils.OnRecyclerViewOnClickListener;
+import com.marktony.zhuanlan.utils.ZhuanlanItemTouchHelper;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -53,6 +55,7 @@ public class UserDefineIdsFragment extends Fragment{
 
     private TextView tvUserDefine;
     private FloatingActionButton fab;
+    private SwipeRefreshLayout refreshLayout;
 
     private ZhuanlanAdapter adapter;
     private List<ZhuanlanItem> zhuanlanItemList = new ArrayList<ZhuanlanItem>();
@@ -98,7 +101,16 @@ public class UserDefineIdsFragment extends Fragment{
 
             tvUserDefine.setVisibility(View.GONE);
 
+            refreshLayout.post(new Runnable() {
+                @Override
+                public void run() {
+                    refreshLayout.setRefreshing(true);
+                }
+            });
+
             for (int i = 0; i < list.size(); i++){
+
+                final int finalI = i;
 
                 JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, API.BASE_URL + list.get(i), new Response.Listener<JSONObject>() {
                     @Override
@@ -115,19 +127,37 @@ public class UserDefineIdsFragment extends Fragment{
 
                             zhuanlanItemList.add(item);
 
-                            adapter = new ZhuanlanAdapter(getActivity(),zhuanlanItemList);
-                            rvMain.setAdapter(adapter);
-                            adapter.setItemClickListener(new OnRecyclerViewOnClickListener() {
-                                @Override
-                                public void OnClick(View v, int position) {
-                                    Intent intent = new Intent(getContext(),PostsListActivity.class);
-                                    intent.putExtra("slug",zhuanlanItemList.get(position).getSlug());
-                                    intent.putExtra("title",zhuanlanItemList.get(position).getName());
-                                    startActivity(intent);
+                            if (finalI == (list.size() - 1)) {
+                                adapter = new ZhuanlanAdapter(getActivity(), zhuanlanItemList);
+                                rvMain.setAdapter(adapter);
+                                adapter.setItemClickListener(new OnRecyclerViewOnClickListener() {
+                                    @Override
+                                    public void OnClick(View v, int position) {
 
-                                }
+                                        Intent intent = new Intent(getContext(), PostsListActivity.class);
+                                        intent.putExtra("slug", zhuanlanItemList.get(position).getSlug());
+                                        intent.putExtra("title", zhuanlanItemList.get(position).getName());
+                                        startActivity(intent);
 
-                            });
+                                    }
+
+                                });
+
+                                refreshLayout.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        refreshLayout.setRefreshing(false);
+                                    }
+                                });
+
+                                refreshLayout.setEnabled(false);
+
+                            }
+
+                            // 具体的删除操作在touch helper中完成
+                            ItemTouchHelper.Callback callback = new ZhuanlanItemTouchHelper(getActivity(),adapter);
+                            ItemTouchHelper helper = new ItemTouchHelper(callback);
+                            helper.attachToRecyclerView(rvMain);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -137,7 +167,16 @@ public class UserDefineIdsFragment extends Fragment{
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
 
+                        refreshLayout.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                refreshLayout.setRefreshing(false);
+                            }
+                        });
+
+                        refreshLayout.setEnabled(false);
                     }
+
                 });
 
                 request.setTag(TAG);
@@ -150,8 +189,8 @@ public class UserDefineIdsFragment extends Fragment{
             public void onClick(View v) {
 
                 final MaterialDialog dialog = new MaterialDialog.Builder(getActivity())
-                        .title("添加账户")
-                        .content("在下面输入专栏的ID，如wooyun")
+                        .title(R.string.add_zhuanlan_id)
+                        .content(R.string.add_zhuanlan_id_description)
                         .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS)
                         .input("", "", new MaterialDialog.InputCallback() {
                             @Override
@@ -173,7 +212,11 @@ public class UserDefineIdsFragment extends Fragment{
                         if (imm.isActive()) {
                             imm.hideSoftInputFromWindow(fab.getWindowToken(), 0);
                         }
-                        startActivity(new Intent(getContext(),AddIdHelpActivity.class));
+
+                        String url = getString(R.string.add_zhuanlan_id_help);
+                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                        intent.setData(Uri.parse(url));
+                        startActivity(intent);
 
                     }
                 });
@@ -210,7 +253,26 @@ public class UserDefineIdsFragment extends Fragment{
                                        ZhuanlanItem item = new ZhuanlanItem(name,slug,avatar,followersCount,postCount,description);
 
                                        zhuanlanItemList.add(item);
-                                       adapter.notifyItemInserted(zhuanlanItemList.size()-1);
+
+                                       if (zhuanlanItemList.size() == 1){
+
+                                           adapter = new ZhuanlanAdapter(getActivity(),zhuanlanItemList);
+                                           rvMain.setAdapter(adapter);
+                                           adapter.setItemClickListener(new OnRecyclerViewOnClickListener() {
+                                               @Override
+                                               public void OnClick(View v, int position) {
+                                                   Intent intent = new Intent(getContext(),PostsListActivity.class);
+                                                   intent.putExtra("slug",zhuanlanItemList.get(position).getSlug());
+                                                   intent.putExtra("title",zhuanlanItemList.get(position).getName());
+                                                   startActivity(intent);
+
+                                               }
+
+                                           });
+
+                                           tvUserDefine.setVisibility(View.GONE);
+                                       }
+                                       adapter.notifyItemInserted(zhuanlanItemList.size() - 1);
 
                                    } catch (JSONException e) {
                                        e.printStackTrace();
@@ -234,7 +296,7 @@ public class UserDefineIdsFragment extends Fragment{
                                @Override
                                 public void onErrorResponse(VolleyError volleyError) {
 
-                                   Snackbar.make(fab,"ID输入错误",Snackbar.LENGTH_SHORT).show();
+                                   Snackbar.make(fab, R.string.add_zhuanlan_id_error,Snackbar.LENGTH_SHORT).show();
 
                                 }
                             });
@@ -261,6 +323,7 @@ public class UserDefineIdsFragment extends Fragment{
         fab = (FloatingActionButton) view.findViewById(R.id.fab);
         rvMain = (RecyclerView) view.findViewById(R.id.recycler_view);
         rvMain.setLayoutManager(layoutManager);
+        refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh);
 
     }
 
@@ -268,6 +331,17 @@ public class UserDefineIdsFragment extends Fragment{
     public void onStop() {
         super.onStop();
 
-        queue.cancelAll(TAG);
+        if (queue != null){
+            queue.cancelAll(TAG);
+        }
+
+        if (refreshLayout.isRefreshing()){
+            refreshLayout.post(new Runnable() {
+                @Override
+                public void run() {
+                    refreshLayout.setRefreshing(false);
+                }
+            });
+        }
     }
 }

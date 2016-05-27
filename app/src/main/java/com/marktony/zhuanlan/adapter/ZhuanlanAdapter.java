@@ -1,7 +1,7 @@
 package com.marktony.zhuanlan.adapter;
 
 import android.content.Context;
-import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.marktony.zhuanlan.R;
 import com.marktony.zhuanlan.bean.ZhuanlanItem;
-import com.marktony.zhuanlan.ui.PostsListActivity;
+import com.marktony.zhuanlan.db.MyDataBaseHelper;
 import com.marktony.zhuanlan.utils.OnRecyclerViewOnClickListener;
 import com.marktony.zhuanlan.view.CircleImageView;
 
@@ -94,4 +94,21 @@ public class ZhuanlanAdapter extends RecyclerView.Adapter<ZhuanlanAdapter.Zhuanl
             }
         }
     }
+
+    /**
+     * 配合ZhuanlanItenTouchHelper使用，暴露方法
+     * 对于数据库中数据的操作在此完成,helper中主要完成view的删除
+     * @param context context
+     * @param position position
+     */
+    public void remove(Context context,int position) {
+
+        ZhuanlanItem item = list.get(position);
+        SQLiteDatabase db = new MyDataBaseHelper(context,"User_defined_IDs.db",null,1).getWritableDatabase();
+        db.delete("Ids","zhuanlanID = ?", new String[] {item.getSlug()});
+        list.remove(position);
+        notifyItemRemoved(position);
+
+    }
+
 }
