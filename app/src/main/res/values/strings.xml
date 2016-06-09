@@ -52,7 +52,7 @@
     <string name="mail_subject">知乎专栏App使用反馈于建议</string>
     <string name="mail_account">mailto:marktonymengyi@gmail.com</string>
     <string name="no_market_app">没有安装市场类App</string>
-    <string name="donate_account">18627441225</string>
+    <string name="donate_account">marktonymengyi@gmail.com</string>
     <string name="version">版本:V1.3</string>
     <string name="rate">为知乎专栏App评分</string>
     <string name="rate_description">如果你喜欢知乎专栏App,那么请在商店中为它评分吧</string>
