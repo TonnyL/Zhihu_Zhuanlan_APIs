@@ -28,6 +28,7 @@ public class AboutActivity extends AppCompatActivity {
     private TextView tvZhihu;
     private LinearLayout layoutBugs;
     private LinearLayout layoutSupport;
+    private LinearLayout layoutIconAuthor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,6 +118,16 @@ public class AboutActivity extends AppCompatActivity {
             }
         });
 
+        layoutIconAuthor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url = getString(R.string.icon_author_url);
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(url));
+                startActivity(intent);
+            }
+        });
+
     }
 
     @Override
@@ -141,6 +152,7 @@ public class AboutActivity extends AppCompatActivity {
         layoutSupport = (LinearLayout) findViewById(R.id.LL_support);
         tvGitHub = (TextView) findViewById(R.id.tv_github);
         tvZhihu = (TextView) findViewById(R.id.tv_zhihu);
+        layoutIconAuthor = (LinearLayout) findViewById(R.id.LL_icon_author);
     }
 
     @Override

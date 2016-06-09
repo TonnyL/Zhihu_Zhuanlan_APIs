@@ -53,7 +53,7 @@
     <string name="mail_account">mailto:marktonymengyi@gmail.com</string>
     <string name="no_market_app">没有安装市场类App</string>
     <string name="donate_account">18627441225</string>
-    <string name="version">版本:1.2.0</string>
+    <string name="version">版本:V1.3</string>
     <string name="rate">为知乎专栏App评分</string>
     <string name="rate_description">如果你喜欢知乎专栏App,那么请在商店中为它评分吧</string>
     <string name="author">作者</string>
@@ -61,6 +61,9 @@
     <string name="author_description">湖南,长沙</string>
     <string name="follow_on_github">在GitHub关注我</string>
     <string name="follow_on_zhihu">在知乎关注我</string>
+    <string name="icon_author">ToddThink</string>
+    <string name="icon_author_description">图标设计(V1.3)</string>
+    <string name="icon_author_url">http://toddthink.com/</string>
     <string name="support">支持</string>
     <string name="feedback_advice">反馈BUG / 建议</string>
     <string name="feedback_advice_description">帮助我改进知乎专栏App</string>
