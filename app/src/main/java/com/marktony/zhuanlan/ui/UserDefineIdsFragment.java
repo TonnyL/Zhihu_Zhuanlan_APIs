@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -21,6 +22,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -154,12 +156,12 @@ public class UserDefineIdsFragment extends Fragment{
 
                                 refreshLayout.setEnabled(false);
 
-                            }
+                                // 具体的删除操作在touch helper中完成
+                                callback = new ZhuanlanItemTouchHelper(getActivity(),adapter);
+                                ItemTouchHelper helper = new ItemTouchHelper(callback);
+                                helper.attachToRecyclerView(rvMain);
 
-                            // 具体的删除操作在touch helper中完成
-                            callback = new ZhuanlanItemTouchHelper(getActivity(),adapter);
-                            ItemTouchHelper helper = new ItemTouchHelper(callback);
-                            helper.attachToRecyclerView(rvMain);
+                            }
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -183,7 +185,10 @@ public class UserDefineIdsFragment extends Fragment{
 
                 request.setTag(TAG);
                 queue.add(request);
+
             }
+
+
         }
 
         fab.setOnClickListener(new View.OnClickListener() {
@@ -252,11 +257,31 @@ public class UserDefineIdsFragment extends Fragment{
                                         String name = jsonObject.getString("name");
                                         String postCount = jsonObject.getString("postsCount");
 
-                                        ZhuanlanItem item = new ZhuanlanItem(name,slug,avatar,followersCount,postCount,description);
+                                        Boolean exists = false;
 
-                                        zhuanlanItemList.add(item);
+                                        Cursor cursor = db.query("Ids",null,null,null,null,null,null);
+                                        if (cursor.moveToFirst()){
+                                            do {
+                                                if (slug.equals(String.valueOf(cursor.getString(cursor.getColumnIndex("zhuanlanID"))))){
+                                                    exists = true;
+                                                    break;
+                                                }
+                                            } while (cursor.moveToNext());
+                                        }
+                                        cursor.close();
 
-                                        if (zhuanlanItemList.size() == 1){
+                                        if (!exists){
+
+                                            // 向数据库中插入数据
+                                            ContentValues values = new ContentValues();
+                                            values.put("zhuanlanID",input);
+                                            db.insert("Ids",null,values);
+
+                                            values.clear();
+
+                                            ZhuanlanItem item = new ZhuanlanItem(name,slug,avatar,followersCount,postCount,description);
+
+                                            zhuanlanItemList.add(item);
 
                                             adapter = new ZhuanlanAdapter(getActivity(),zhuanlanItemList);
                                             rvMain.setAdapter(adapter);
@@ -267,29 +292,25 @@ public class UserDefineIdsFragment extends Fragment{
                                                     intent.putExtra("slug",zhuanlanItemList.get(position).getSlug());
                                                     intent.putExtra("title",zhuanlanItemList.get(position).getName());
                                                     startActivity(intent);
-
                                                 }
 
                                             });
 
                                             tvUserDefine.setVisibility(View.GONE);
+
+                                            adapter.notifyItemInserted(zhuanlanItemList.size() - 1);
+                                            // 具体的删除操作在touch helper中完成
+                                            callback = new ZhuanlanItemTouchHelper(getActivity(),adapter);
+                                            ItemTouchHelper helper = new ItemTouchHelper(callback);
+                                            helper.attachToRecyclerView(rvMain);
+
+                                        } else {
+                                            Snackbar.make(fab, R.string.added,Snackbar.LENGTH_SHORT).show();
                                         }
-                                        adapter.notifyItemInserted(zhuanlanItemList.size() - 1);
-                                        // 具体的删除操作在touch helper中完成
-                                        callback = new ZhuanlanItemTouchHelper(getActivity(),adapter);
-                                        ItemTouchHelper helper = new ItemTouchHelper(callback);
-                                        helper.attachToRecyclerView(rvMain);
 
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
-
-                                    // 向数据库中插入数据
-                                    ContentValues values = new ContentValues();
-                                    values.put("zhuanlanID",input);
-                                    db.insert("Ids",null,values);
-
-                                    values.clear();
 
                                     // 监听输入面板的情况，如果激活则隐藏
                                     InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -330,6 +351,14 @@ public class UserDefineIdsFragment extends Fragment{
         rvMain = (RecyclerView) view.findViewById(R.id.recycler_view);
         rvMain.setLayoutManager(layoutManager);
         refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh);
+        //设置下拉刷新的按钮的颜色
+        refreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
+        //设置手指在屏幕上下拉多少距离开始刷新
+        refreshLayout.setDistanceToTriggerSync(300);
+        //设置下拉刷新按钮的背景颜色
+        refreshLayout.setProgressBackgroundColorSchemeColor(Color.WHITE);
+        //设置下拉刷新按钮的大小
+        refreshLayout.setSize(SwipeRefreshLayout.DEFAULT);
 
     }
 

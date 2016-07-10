@@ -89,5 +89,6 @@
 
     <string name="AddCategoryActivity">添加至自定义</string>
     <string name="add_zhuanlan_id_success">添加成功</string>
+    <string name="added">已经添加过了</string>
 
 </resources>

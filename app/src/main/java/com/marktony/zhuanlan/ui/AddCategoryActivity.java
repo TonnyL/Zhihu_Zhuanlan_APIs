@@ -2,6 +2,7 @@ package com.marktony.zhuanlan.ui;
 
 import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -89,16 +90,34 @@ public class AddCategoryActivity extends AppCompatActivity {
                         try {
 
                             if (jsonObject.getString("slug").equals(id)){
-                                // 向数据库中插入数据
-                                ContentValues values = new ContentValues();
-                                values.put("zhuanlanID",id);
-                                db.insert("Ids",null,values);
 
-                                values.clear();
+                                Boolean exists = false;
+
+                                Cursor cursor = db.query("Ids",null,null,null,null,null,null);
+                                if (cursor.moveToFirst()){
+                                    do {
+                                        if (id.equals(String.valueOf(cursor.getString(cursor.getColumnIndex("zhuanlanID"))))){
+                                            Toast.makeText(AddCategoryActivity.this,R.string.added,Toast.LENGTH_SHORT).show();
+                                            exists = true;
+                                            break;
+                                        }
+                                    } while (cursor.moveToNext());
+                                }
+                                cursor.close();
+
+                                if (!exists){
+                                    // 向数据库中插入数据
+                                    ContentValues values = new ContentValues();
+                                    values.put("zhuanlanID",id);
+                                    db.insert("Ids",null,values);
+
+                                    values.clear();
+
+                                    Toast.makeText(AddCategoryActivity.this,R.string.add_zhuanlan_id_success,Toast.LENGTH_SHORT).show();
+                                }
 
                                 progressDialog.dismiss();
 
-                                Toast.makeText(AddCategoryActivity.this,R.string.add_zhuanlan_id_success,Toast.LENGTH_SHORT).show();
                                 finish();
                             }
 
