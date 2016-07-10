@@ -135,7 +135,7 @@ public class ReadActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent shareIntent = new Intent().setAction(Intent.ACTION_SEND).setType("text/plain");
-                String shareText = title + "https://zhuanlan.zhihu.com/api/posts/" + slug;
+                String shareText = title + " " + "https://zhuanlan.zhihu.com/p/" + slug;
                 shareIntent.putExtra(Intent.EXTRA_TEXT,shareText);
                 startActivity(Intent.createChooser(shareIntent,getString(R.string.share_to)));
             }

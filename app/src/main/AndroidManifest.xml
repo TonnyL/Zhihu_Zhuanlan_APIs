@@ -41,6 +41,17 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/title_activity_read"
             android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity android:name=".ui.AddCategoryActivity"
+            android:excludeFromRecents="true"
+            android:label="@string/AddCategoryActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

@@ -70,7 +70,7 @@ public class CommentActivity extends AppCompatActivity {
                         if (list.size() < commentCount){
                             loadData(false);
                         } else {
-                            Snackbar.make(rvComments,"没有更多了！",Snackbar.LENGTH_SHORT).show();
+                            Snackbar.make(rvComments, R.string.no_more,Snackbar.LENGTH_SHORT).show();
                         }
 
                     }

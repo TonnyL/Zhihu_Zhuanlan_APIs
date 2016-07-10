@@ -43,7 +43,7 @@
     <string name="title_activity_about">关于</string>
     <string name="donate">捐赠</string>
     <string name="donate_content">支付宝账号将会复制到粘贴板，进入支付宝可直接粘贴完成捐赠，感谢您的支持！</string>
-    <string name="copyright_content">本App所使用的所有API均由 知乎(Zhihu.Inc) 提供，Github用户黎赵太郎(marklztl)采取非正常手段获取。获取与共享之行为或有侵犯知乎权益的嫌疑。若被告知需停止共享与使用，黎赵太郎会及时删除页面与整个项目。请您暸解相关情况，并遵守知乎协议。</string>
+    <string name="copyright_content">本App所使用的所有API均由 知乎(Zhihu.Inc) 提供，Github用户黎赵太郎(marktony)采取非正常手段获取。获取与共享之行为或有侵犯知乎权益的嫌疑。若被告知需停止共享与使用，黎赵太郎会及时删除页面与整个项目。请您暸解相关情况，并遵守知乎协议。</string>
     <string name="github_url">https://github.com/marktony</string>
     <string name="zhihu_url">https://www.zhihu.com/people/kirin-momo</string>
     <string name="no_mail_app">没有安装邮件类App</string>
@@ -53,7 +53,7 @@
     <string name="mail_account">mailto:marktonymengyi@gmail.com</string>
     <string name="no_market_app">没有安装市场类App</string>
     <string name="donate_account">marktonymengyi@gmail.com</string>
-    <string name="version">版本:V1.3</string>
+    <string name="version">版本:V1.4</string>
     <string name="rate">为知乎专栏App评分</string>
     <string name="rate_description">如果你喜欢知乎专栏App,那么请在商店中为它评分吧</string>
     <string name="author">作者</string>
@@ -81,10 +81,13 @@
     <string name="add_id_description">当前没有已添加的专栏，点击加号按钮添加</string>
     <string name="zhuanlan_id_help">什么是专栏的ID</string>
     <string name="add_zhuanlan_id_help">http://marktony.github.io/2016/05/27/%E5%85%B3%E4%BA%8E%E7%9F%A5%E4%B9%8E%E4%B8%93%E6%A0%8FID%E7%9A%84%E4%B8%80%E4%BA%9B%E8%AF%B4%E6%98%8E/</string>
-    <string name="add_zhuanlan_id_error">ID输入错误</string>
+    <string name="add_zhuanlan_id_error">添加失败</string>
     <string name="add_zhuanlan_id">添加专栏ID</string>
     <string name="add_zhuanlan_id_description">在下面输入专栏的ID，如wooyun</string>
+    <string name="no_more">没有更多了！</string>
     <!--add zhuanlan id end-->
 
+    <string name="AddCategoryActivity">添加至自定义</string>
+    <string name="add_zhuanlan_id_success">添加成功</string>
 
 </resources>

@@ -64,6 +64,8 @@ public class UserDefineIdsFragment extends Fragment{
 
     private RequestQueue queue;
 
+    private ItemTouchHelper.Callback callback;
+
     private static final String TAG = "TAG";
 
 
@@ -155,7 +157,7 @@ public class UserDefineIdsFragment extends Fragment{
                             }
 
                             // 具体的删除操作在touch helper中完成
-                            ItemTouchHelper.Callback callback = new ZhuanlanItemTouchHelper(getActivity(),adapter);
+                            callback = new ZhuanlanItemTouchHelper(getActivity(),adapter);
                             ItemTouchHelper helper = new ItemTouchHelper(callback);
                             helper.attachToRecyclerView(rvMain);
 
@@ -239,64 +241,68 @@ public class UserDefineIdsFragment extends Fragment{
                         if (!input.isEmpty()){
 
                             JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, API.BASE_URL + input, new Response.Listener<JSONObject>() {
-                               @Override
-                               public void onResponse(JSONObject jsonObject) {
+                                @Override
+                                public void onResponse(JSONObject jsonObject) {
 
-                                   try {
-                                       String followersCount = jsonObject.getString("followersCount");
-                                       String description = jsonObject.getString("description");
-                                       String avatar = "https://pic2.zhimg.com/" + jsonObject.getJSONObject("avatar").getString("id") + "_l.jpg";
-                                       String slug = jsonObject.getString("slug");
-                                       String name = jsonObject.getString("name");
-                                       String postCount = jsonObject.getString("postsCount");
+                                    try {
+                                        String followersCount = jsonObject.getString("followersCount");
+                                        String description = jsonObject.getString("description");
+                                        String avatar = "https://pic2.zhimg.com/" + jsonObject.getJSONObject("avatar").getString("id") + "_l.jpg";
+                                        String slug = jsonObject.getString("slug");
+                                        String name = jsonObject.getString("name");
+                                        String postCount = jsonObject.getString("postsCount");
 
-                                       ZhuanlanItem item = new ZhuanlanItem(name,slug,avatar,followersCount,postCount,description);
+                                        ZhuanlanItem item = new ZhuanlanItem(name,slug,avatar,followersCount,postCount,description);
 
-                                       zhuanlanItemList.add(item);
+                                        zhuanlanItemList.add(item);
 
-                                       if (zhuanlanItemList.size() == 1){
+                                        if (zhuanlanItemList.size() == 1){
 
-                                           adapter = new ZhuanlanAdapter(getActivity(),zhuanlanItemList);
-                                           rvMain.setAdapter(adapter);
-                                           adapter.setItemClickListener(new OnRecyclerViewOnClickListener() {
-                                               @Override
-                                               public void OnClick(View v, int position) {
-                                                   Intent intent = new Intent(getContext(),PostsListActivity.class);
-                                                   intent.putExtra("slug",zhuanlanItemList.get(position).getSlug());
-                                                   intent.putExtra("title",zhuanlanItemList.get(position).getName());
-                                                   startActivity(intent);
+                                            adapter = new ZhuanlanAdapter(getActivity(),zhuanlanItemList);
+                                            rvMain.setAdapter(adapter);
+                                            adapter.setItemClickListener(new OnRecyclerViewOnClickListener() {
+                                                @Override
+                                                public void OnClick(View v, int position) {
+                                                    Intent intent = new Intent(getContext(),PostsListActivity.class);
+                                                    intent.putExtra("slug",zhuanlanItemList.get(position).getSlug());
+                                                    intent.putExtra("title",zhuanlanItemList.get(position).getName());
+                                                    startActivity(intent);
 
-                                               }
+                                                }
 
-                                           });
+                                            });
 
-                                           tvUserDefine.setVisibility(View.GONE);
-                                       }
-                                       adapter.notifyItemInserted(zhuanlanItemList.size() - 1);
+                                            tvUserDefine.setVisibility(View.GONE);
+                                        }
+                                        adapter.notifyItemInserted(zhuanlanItemList.size() - 1);
+                                        // 具体的删除操作在touch helper中完成
+                                        callback = new ZhuanlanItemTouchHelper(getActivity(),adapter);
+                                        ItemTouchHelper helper = new ItemTouchHelper(callback);
+                                        helper.attachToRecyclerView(rvMain);
 
-                                   } catch (JSONException e) {
-                                       e.printStackTrace();
-                                   }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
 
-                                   // 向数据库中插入数据
-                                   ContentValues values = new ContentValues();
-                                   values.put("zhuanlanID",input);
-                                   db.insert("Ids",null,values);
+                                    // 向数据库中插入数据
+                                    ContentValues values = new ContentValues();
+                                    values.put("zhuanlanID",input);
+                                    db.insert("Ids",null,values);
 
-                                   values.clear();
+                                    values.clear();
 
-                                   // 监听输入面板的情况，如果激活则隐藏
-                                   InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                                   if (imm.isActive()) {
-                                       imm.hideSoftInputFromWindow(fab.getWindowToken(), 0);
-                                   }
+                                    // 监听输入面板的情况，如果激活则隐藏
+                                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                                    if (imm.isActive()) {
+                                        imm.hideSoftInputFromWindow(fab.getWindowToken(), 0);
+                                    }
 
-                               }
+                                }
                             }, new Response.ErrorListener() {
-                               @Override
+                                @Override
                                 public void onErrorResponse(VolleyError volleyError) {
 
-                                   Snackbar.make(fab, R.string.add_zhuanlan_id_error,Snackbar.LENGTH_SHORT).show();
+                                    Snackbar.make(fab, R.string.add_zhuanlan_id_error,Snackbar.LENGTH_SHORT).show();
 
                                 }
                             });

@@ -116,13 +116,13 @@ public class MainActivity extends AppCompatActivity
 
             replaceFragment(new ZhihuFragment());
 
-        } else if (id == R.id.nav_about){
-            Intent intent = new Intent(MainActivity.this,AboutActivity.class);
-            startActivity(intent);
         } else if (id == R.id.nav_user_define){
 
             replaceFragment(new UserDefineIdsFragment());
 
+        } else if (id == R.id.nav_about){
+            Intent intent = new Intent(MainActivity.this,AboutActivity.class);
+            startActivity(intent);
         }
 
 
