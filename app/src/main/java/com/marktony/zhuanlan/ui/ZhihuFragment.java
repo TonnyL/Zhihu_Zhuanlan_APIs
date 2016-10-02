@@ -39,7 +39,7 @@ public class ZhihuFragment extends Fragment {
     private SwipeRefreshLayout refreshLayout;
     private RequestQueue queue;
     private ZhuanlanAdapter adapter;
-    private List<ZhuanlanItem> list = new ArrayList<ZhuanlanItem>();
+    private List<ZhuanlanItem> list = new ArrayList<>();
     private LinearLayoutManager layoutManager;
 
     private String[] ids;
@@ -88,7 +88,7 @@ public class ZhihuFragment extends Fragment {
 
                         list.add(item);
 
-                        if (finalI == (ids.length - 1)){
+                        if (adapter == null) {
                             adapter = new ZhuanlanAdapter(getActivity(),list);
                             rvMain.setAdapter(adapter);
                             adapter.setItemClickListener(new OnRecyclerViewOnClickListener() {
@@ -100,6 +100,11 @@ public class ZhihuFragment extends Fragment {
                                     startActivity(intent);
                                 }
                             });
+                        } else {
+                            adapter.notifyItemInserted(list.size() - 1);
+                        }
+
+                        if (finalI == (ids.length - 1)){
 
                             refreshLayout.post(new Runnable() {
                                 @Override
@@ -172,4 +177,5 @@ public class ZhihuFragment extends Fragment {
             });
         }
     }
+
 }

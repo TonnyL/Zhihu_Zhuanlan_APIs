@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class Zhuanlan {
 
     private int followersCount;
-    private Creater creater;
+    private AuthorOrLiker creator;
     private ArrayList<Topic> topics;
     private String activateState;
     private String href;
@@ -17,7 +17,7 @@ public class Zhuanlan {
     private boolean firstTime;
     private ArrayList<Topic> postTopics;
     private String pendingName;
-    private Avatar avatar;
+    private AuthorOrLiker.Avatar avatar;
     private boolean canManage;
     private String description;
     private ArrayList<Topic> pendingTopics;
@@ -43,12 +43,12 @@ public class Zhuanlan {
         this.followersCount = followersCount;
     }
 
-    public Creater getCreater() {
-        return creater;
+    public AuthorOrLiker getCreator() {
+        return creator;
     }
 
-    public void setCreater(Creater creater) {
-        this.creater = creater;
+    public void setCreator(AuthorOrLiker creator) {
+        this.creator = creator;
     }
 
     public ArrayList<Topic> getTopics() {
@@ -107,11 +107,11 @@ public class Zhuanlan {
         this.pendingName = pendingName;
     }
 
-    public Avatar getAvatar() {
+    public AuthorOrLiker.Avatar getAvatar() {
         return avatar;
     }
 
-    public void setAvatar(Avatar avatar) {
+    public void setAvatar(AuthorOrLiker.Avatar avatar) {
         this.avatar = avatar;
     }
 
@@ -241,82 +241,6 @@ public class Zhuanlan {
 
     public void setCanPost(boolean canPost) {
         this.canPost = canPost;
-    }
-
-    public class Creater {
-
-        private String profileUrl;
-        private String bio;
-        private String hash;
-        private String name;
-        private boolean isOrg;
-        private String slug;
-        private Avatar avatar;
-        private String description;
-
-        public String getProfileUrl() {
-            return profileUrl;
-        }
-
-        public void setProfileUrl(String profileUrl) {
-            this.profileUrl = profileUrl;
-        }
-
-        public String getBio() {
-            return bio;
-        }
-
-        public void setBio(String bio) {
-            this.bio = bio;
-        }
-
-        public String getHash() {
-            return hash;
-        }
-
-        public void setHash(String hash) {
-            this.hash = hash;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public boolean isOrg() {
-            return isOrg;
-        }
-
-        public void setOrg(boolean org) {
-            isOrg = org;
-        }
-
-        public String getSlug() {
-            return slug;
-        }
-
-        public void setSlug(String slug) {
-            this.slug = slug;
-        }
-
-        public Avatar getAvatar() {
-            return avatar;
-        }
-
-        public void setAvatar(Avatar avatar) {
-            this.avatar = avatar;
-        }
-
-        public String getDescription() {
-            return description;
-        }
-
-        public void setDescription(String description) {
-            this.description = description;
-        }
     }
 
     public class Topic {
