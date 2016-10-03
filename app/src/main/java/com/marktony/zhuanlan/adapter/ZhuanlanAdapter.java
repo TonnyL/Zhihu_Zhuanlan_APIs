@@ -10,9 +10,9 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.marktony.zhuanlan.R;
-import com.marktony.zhuanlan.bean.ZhuanlanItem;
+import com.marktony.zhuanlan.bean.Zhuanlan;
 import com.marktony.zhuanlan.db.MyDataBaseHelper;
-import com.marktony.zhuanlan.utils.OnRecyclerViewOnClickListener;
+import com.marktony.zhuanlan.interfaze.OnRecyclerViewOnClickListener;
 import com.marktony.zhuanlan.view.CircleImageView;
 
 import java.util.ArrayList;
@@ -25,10 +25,10 @@ public class ZhuanlanAdapter extends RecyclerView.Adapter<ZhuanlanAdapter.Zhuanl
 
     private final Context context;
     private final LayoutInflater inflater;
-    private List<ZhuanlanItem> list = new ArrayList<ZhuanlanItem>();
+    private List<Zhuanlan> list = new ArrayList<>();
     private OnRecyclerViewOnClickListener mListener;
 
-    public ZhuanlanAdapter(Context context,List<ZhuanlanItem> list){
+    public ZhuanlanAdapter(Context context,List<Zhuanlan> list){
         this.context = context;
         this.list = list;
         this.inflater = LayoutInflater.from(context);
@@ -43,14 +43,20 @@ public class ZhuanlanAdapter extends RecyclerView.Adapter<ZhuanlanAdapter.Zhuanl
 
     @Override
     public void onBindViewHolder(ZhuanlanItemViewHolder holder, int position) {
-        ZhuanlanItem item = list.get(position);
-        if (item.getAvatarUrl() != null){
-            Glide.with(context).load(item.getAvatarUrl()).into(holder.ciAvatar);
+        Zhuanlan item = list.get(position);
+        if (item.getAvatar() != null){
+            String url = item.getAvatar().getTemplate()
+                    .replace("{id}", item.getAvatar().getId())
+                    .replace("{size}", "m");
+            Glide.with(context)
+                    .load(url)
+                    .asBitmap()
+                    .into(holder.ciAvatar);
         }
         holder.tvName.setText(item.getName());
-        String text = item.getFocusCount() + "人关注TA";
+        String text = item.getFollowersCount() + "人关注TA";
         holder.tvFansCount.setText(text);
-        text = item.getArticleCount() + "篇文章";
+        text = item.getPostsCount() + "篇文章";
         holder.tvArticleCount.setText(text);
         holder.tvIntro.setText(item.getIntro());
 
@@ -103,7 +109,7 @@ public class ZhuanlanAdapter extends RecyclerView.Adapter<ZhuanlanAdapter.Zhuanl
      */
     public void remove(Context context,int position) {
 
-        ZhuanlanItem item = list.get(position);
+        Zhuanlan item = list.get(position);
         SQLiteDatabase db = new MyDataBaseHelper(context,"User_defined_IDs.db",null,1).getWritableDatabase();
         db.delete("Ids","zhuanlanID = ?", new String[] {item.getSlug()});
         list.remove(position);

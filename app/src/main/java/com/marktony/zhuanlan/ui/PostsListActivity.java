@@ -22,7 +22,7 @@ import com.marktony.zhuanlan.R;
 import com.marktony.zhuanlan.adapter.PostsAdapter;
 import com.marktony.zhuanlan.bean.PostItem;
 import com.marktony.zhuanlan.utils.API;
-import com.marktony.zhuanlan.utils.OnRecyclerViewOnClickListener;
+import com.marktony.zhuanlan.interfaze.OnRecyclerViewOnClickListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="tech_ids" >
+    <string-array name="product"><!--产品 创业 互联网-->
         <item>design</item><!--产品设计与用户体验-->
         <item>pinapps</item><!--Pinapps - 感谢那些赐予我们力量的 apps-->
         <item>WebNotes</item><!--小道消息-->
@@ -8,12 +8,11 @@
         <item>luckystar</item><!--Luckystar Says-->
         <item>zuimei</item><!--最美应用 | 有价值的好应用-->
         <item>hemingke</item><!--数据冰山-->
-        <item>wooyun</item><!--乌云君-->
         <item>bigertech</item><!--笔戈科技-->
         <item>smartdesigner</item><!--理科生是设计师-->
     </string-array>
 
-    <string-array name="zhihu_ids" >
+    <string-array name="zhihu" ><!--知乎 程序员-->
         <item>zhihuadmin</item><!--知乎小管家说-->
         <item>banquan</item><!--知乎版权保护专栏-->
         <item>zhihulive</item><!--知乎 Live-->
@@ -24,9 +23,8 @@
         <item>FrontendMagazine</item><!--前端外刊评论-->
     </string-array>
 
-    <string-array name="photography_ids">
+    <string-array name="life"><!--生活 旅行 杂谈-->
         <item>yanshar</item><!--The Final Boarding Call-->
-        <item>Photography</item><!--摄影的那些事儿-->
         <item>he110world</item><!--我们的征途是星辰大海-->
         <item>ciciatc</item><!--与食巨近贱多食广地蹦跶在不列颠-->
         <item>japan-talk</item><!--东瀛杂记-->
@@ -34,9 +32,6 @@
         <item>hikarifromtokyo</item><!--东京光芒-->
         <item>ethanlam</item><!--一群旅行体验师-->
         <item>chivnjapan</item><!--你不知道的日本-->
-    </string-array>
-
-    <string-array name="life_talks_ids">
         <item>zhangjiawei</item><!--张佳玮写字的地方-->
         <item>hibetterme</item><!--女神进化论-->
         <item>maboyong</item><!--异教徒告解室--><!--马伯庸-->
@@ -49,18 +44,19 @@
         <item>Song-Shibo</item><!--宋世泊-->
     </string-array>
 
-    <string-array name="psychology_ids">
+    <string-array name="emotion"><!--健康 情感 心理-->
+        <item>lengai</item><!--冷眼观爱-->
+        <item>career</item><!--如何做你所爱-->
+        <item>aiqing</item><!--只谈风月-->
+        <item>lovemomo</item><!--理性的赌徒-->
         <item>lswlsw</item><!--潜台词-->
         <item>happy</item><!--幸福课-->
         <item>psychology</item><!--心理学你妹-->
         <item>jiandanxinli</item><!--简单心理-->
-        <item>lengai</item><!--冷眼观爱-->
-        <item>career</item><!--如何做你所爱-->
-        <item>aiqing</item><!--只谈风月-->
         <item>knowyourself</item><!--Know Yourself-->
     </string-array>
 
-    <string-array name="music_film_ids">
+    <string-array name="music"><!--音乐 电影 摄影-->
         <item>zhimovie</item><!--知影-->
         <item>Battlestar</item><!--太空堡垒-->
         <item>happymuyi</item><!--木易聊影-->
@@ -71,9 +67,13 @@
         <item>klexraxmusic</item><!--狂喜之诗-->
         <item>1song</item><!--那些年听过的歌-->
         <item>dingj</item><!--人生何处不flop-->
+        <item>Photography</item><!--摄影的那些事儿-->
     </string-array>
 
-    <string-array name="financial_ids">
+    <string-array name="profession">
+        <item>mj1997</item><!--物流与人-->
+        <item>transportation</item><!--V·T·E·C 交通行业-->
+        <item>huizi</item><!--你不可能做不好一锅红烧肉-->
         <item>agBJB</item><!--A股收盘小笔记-->
         <item>delta</item><!--Dynamic Delta - Pure Alpha-->
         <item>chenqin</item><!--Clean Data-->
@@ -85,4 +85,5 @@
         <item>sailv</item><!--Sai.L和大家聊金融的地方-->
         <item>wayneshiong</item><!--创业ing-->
     </string-array>
+
 </resources>

@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.marktony.zhuanlan.R;
 import com.marktony.zhuanlan.bean.PostItem;
-import com.marktony.zhuanlan.utils.OnRecyclerViewOnClickListener;
+import com.marktony.zhuanlan.interfaze.OnRecyclerViewOnClickListener;
 
 import java.util.ArrayList;
 import java.util.List;

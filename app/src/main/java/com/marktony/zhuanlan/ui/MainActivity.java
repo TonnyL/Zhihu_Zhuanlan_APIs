@@ -21,11 +21,9 @@ import com.marktony.zhuanlan.R;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private Toolbar toolbar;
     private DrawerLayout drawer;
     private ActionBarDrawerToggle toggle;
     private NavigationView navigationView;
-
 
 
     @Override
@@ -35,9 +33,14 @@ public class MainActivity extends AppCompatActivity
 
         initViews();
 
-        navigationView.setCheckedItem(R.id.nav_tech);
-        InternetFragment techFragment = new InternetFragment();
-        getSupportFragmentManager().beginTransaction().replace(R.id.main_container,techFragment).commit();
+        navigationView.setCheckedItem(R.id.nav_product);
+        GlobalFragment fragment = GlobalFragment.newInstance();
+        fragment.setType(GlobalFragment.TYPE_PRODUCT);
+
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.main_container,fragment)
+                .commit();
+
     }
 
     @Override
@@ -88,33 +91,41 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_tech) {
+        if (id == R.id.nav_product) {
 
-            replaceFragment(new InternetFragment());
-
-        } else if (id == R.id.nav_tourism_photography) {
-
-            replaceFragment(new TourismFragment());
-
-        } else if (id == R.id.nav_music_film) {
-
-            replaceFragment(new MusicFilmFragment());
+            GlobalFragment fragment = GlobalFragment.newInstance();
+            fragment.setType(GlobalFragment.TYPE_PRODUCT);
+            replaceFragment(fragment);
 
         } else if (id == R.id.nav_life) {
 
-            replaceFragment(new LifeFragment());
+            GlobalFragment fragment = GlobalFragment.newInstance();
+            fragment.setType(GlobalFragment.TYPE_LIFE);
+            replaceFragment(fragment);
 
-        } else if (id == R.id.nav_psychology) {
+        } else if (id == R.id.nav_music) {
 
-            replaceFragment(new PsychologyFragment());
+            GlobalFragment fragment = GlobalFragment.newInstance();
+            fragment.setType(GlobalFragment.TYPE_MUSIC);
+            replaceFragment(fragment);
 
-        } else if (id == R.id.nav_financial) {
+        } else if (id == R.id.nav_emotion) {
 
-            replaceFragment(new FinancialFragment());
+            GlobalFragment fragment = GlobalFragment.newInstance();
+            fragment.setType(GlobalFragment.TYPE_EMOTION);
+            replaceFragment(fragment);
+
+        } else if (id == R.id.nav_profession) {
+
+            GlobalFragment fragment = GlobalFragment.newInstance();
+            fragment.setType(GlobalFragment.TYPE_FINANCE);
+            replaceFragment(fragment);
 
         } else if (id == R.id.nav_zhihu){
 
-            replaceFragment(new ZhihuFragment());
+            GlobalFragment fragment = GlobalFragment.newInstance();
+            fragment.setType(GlobalFragment.TYPE_ZHIHU);
+            replaceFragment(fragment);
 
         } else if (id == R.id.nav_user_define){
 
@@ -133,7 +144,7 @@ public class MainActivity extends AppCompatActivity
 
     private void initViews() {
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -148,7 +159,9 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void replaceFragment(Fragment fragment){
-        getSupportFragmentManager().beginTransaction().replace(R.id.main_container,fragment).commit();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.main_container,fragment)
+                .commit();
     }
 
     @Override

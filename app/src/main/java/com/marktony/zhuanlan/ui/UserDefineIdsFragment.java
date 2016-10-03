@@ -22,29 +22,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
+import com.android.volley.toolbox.StringRequest;
+import com.google.gson.Gson;
 import com.marktony.zhuanlan.R;
 import com.marktony.zhuanlan.adapter.ZhuanlanAdapter;
-import com.marktony.zhuanlan.bean.ZhuanlanItem;
+import com.marktony.zhuanlan.app.VolleySingleton;
+import com.marktony.zhuanlan.bean.Zhuanlan;
 import com.marktony.zhuanlan.db.MyDataBaseHelper;
 import com.marktony.zhuanlan.utils.API;
-import com.marktony.zhuanlan.utils.OnRecyclerViewOnClickListener;
+import com.marktony.zhuanlan.interfaze.OnRecyclerViewOnClickListener;
 import com.marktony.zhuanlan.utils.ZhuanlanItemTouchHelper;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by lizhaotailang on 2016/5/26.
@@ -60,16 +55,12 @@ public class UserDefineIdsFragment extends Fragment{
     private SwipeRefreshLayout refreshLayout;
 
     private ZhuanlanAdapter adapter;
-    private List<ZhuanlanItem> zhuanlanItemList = new ArrayList<ZhuanlanItem>();
-    private RecyclerView rvMain;
-    private LinearLayoutManager layoutManager;
+    private ArrayList<Zhuanlan> zhuanlanList = new ArrayList<>();
+    private RecyclerView recyclerView;
 
-    private RequestQueue queue;
+    private Gson gson = new Gson();
 
     private ItemTouchHelper.Callback callback;
-
-    private static final String TAG = "TAG";
-
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -77,10 +68,6 @@ public class UserDefineIdsFragment extends Fragment{
 
         dbHelper = new MyDataBaseHelper(getActivity(),"User_defined_IDs.db",null,1);
         db = dbHelper.getWritableDatabase();
-
-        queue = Volley.newRequestQueue(getActivity().getApplicationContext());
-
-        layoutManager = new LinearLayoutManager(getActivity());
     }
 
     @Nullable
@@ -116,75 +103,54 @@ public class UserDefineIdsFragment extends Fragment{
 
                 final int finalI = i;
 
-                JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, API.BASE_URL + list.get(i), new Response.Listener<JSONObject>() {
+                StringRequest request = new StringRequest(Request.Method.GET, API.BASE_URL + list.get(i), new Response.Listener<String>() {
                     @Override
-                    public void onResponse(JSONObject jsonObject) {
+                    public void onResponse(String s) {
+                        Zhuanlan z = gson.fromJson(s, Zhuanlan.class);
+                        zhuanlanList.add(z);
 
-                        try {
-                            String followersCount = jsonObject.getString("followersCount");
-                            String description = jsonObject.getString("description");
-                            String avatar = "https://pic2.zhimg.com/" + jsonObject.getJSONObject("avatar").getString("id") + "_l.jpg";
-                            String slug = jsonObject.getString("slug");
-                            String name = jsonObject.getString("name");
-                            String postCount = jsonObject.getString("postsCount");
-                            ZhuanlanItem item = new ZhuanlanItem(name,slug,avatar,followersCount,postCount,description);
-
-                            zhuanlanItemList.add(item);
-
-                            if (finalI == (list.size() - 1)) {
-                                adapter = new ZhuanlanAdapter(getActivity(), zhuanlanItemList);
-                                rvMain.setAdapter(adapter);
-                                adapter.setItemClickListener(new OnRecyclerViewOnClickListener() {
-                                    @Override
-                                    public void OnClick(View v, int position) {
-
-                                        Intent intent = new Intent(getContext(), PostsListActivity.class);
-                                        intent.putExtra("slug", zhuanlanItemList.get(position).getSlug());
-                                        intent.putExtra("title", zhuanlanItemList.get(position).getName());
-                                        startActivity(intent);
-
-                                    }
-
-                                });
-
-                                refreshLayout.post(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        refreshLayout.setRefreshing(false);
-                                    }
-                                });
-
-                                refreshLayout.setEnabled(false);
-
-                                // 具体的删除操作在touch helper中完成
-                                callback = new ZhuanlanItemTouchHelper(getActivity(),adapter);
-                                ItemTouchHelper helper = new ItemTouchHelper(callback);
-                                helper.attachToRecyclerView(rvMain);
-
-                            }
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        if (adapter == null) {
+                            adapter = new ZhuanlanAdapter(getActivity(), zhuanlanList);
+                            recyclerView.setAdapter(adapter);
+                            adapter.setItemClickListener(new OnRecyclerViewOnClickListener() {
+                                @Override
+                                public void OnClick(View v, int position) {
+                                    Intent intent = new Intent(getContext(),PostsListActivity.class);
+                                    intent.putExtra("slug",zhuanlanList.get(position).getSlug());
+                                    intent.putExtra("title",zhuanlanList.get(position).getName());
+                                    startActivity(intent);
+                                }
+                            });
+                        } else {
+                            adapter.notifyItemInserted(zhuanlanList.size() - 1);
                         }
+
+                        if (finalI == (list.size() - 1)){
+
+                            refreshLayout.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    refreshLayout.setRefreshing(false);
+                                }
+                            });
+
+                            refreshLayout.setEnabled(false);
+
+                            // 具体的删除操作在touch helper中完成
+                            callback = new ZhuanlanItemTouchHelper(getActivity(),adapter);
+                            ItemTouchHelper helper = new ItemTouchHelper(callback);
+                            helper.attachToRecyclerView(recyclerView);
+                        }
+
                     }
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
 
-                        refreshLayout.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                refreshLayout.setRefreshing(false);
-                            }
-                        });
-
-                        refreshLayout.setEnabled(false);
                     }
-
                 });
 
-                request.setTag(TAG);
-                queue.add(request);
+                VolleySingleton.getVolleySingleton(getActivity()).addToRequestQueue(request);
 
             }
 
@@ -231,9 +197,7 @@ public class UserDefineIdsFragment extends Fragment{
                 dialog.getActionButton(DialogAction.NEGATIVE).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
                         dialog.dismiss();
-
                     }
                 });
 
@@ -245,71 +209,64 @@ public class UserDefineIdsFragment extends Fragment{
 
                         if (!input.isEmpty()){
 
-                            JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, API.BASE_URL + input, new Response.Listener<JSONObject>() {
+                            StringRequest request = new StringRequest(Request.Method.GET, API.BASE_URL + input, new Response.Listener<String>() {
                                 @Override
-                                public void onResponse(JSONObject jsonObject) {
+                                public void onResponse(String s) {
 
-                                    try {
-                                        String followersCount = jsonObject.getString("followersCount");
-                                        String description = jsonObject.getString("description");
-                                        String avatar = "https://pic2.zhimg.com/" + jsonObject.getJSONObject("avatar").getString("id") + "_l.jpg";
-                                        String slug = jsonObject.getString("slug");
-                                        String name = jsonObject.getString("name");
-                                        String postCount = jsonObject.getString("postsCount");
+                                    Zhuanlan z = gson.fromJson(s, Zhuanlan.class);
 
-                                        Boolean exists = false;
+                                    if (z == null) {
+                                        Snackbar.make(fab, R.string.add_zhuanlan_id_error,Snackbar.LENGTH_SHORT).show();
+                                        return;
+                                    }
 
-                                        Cursor cursor = db.query("Ids",null,null,null,null,null,null);
-                                        if (cursor.moveToFirst()){
-                                            do {
-                                                if (slug.equals(String.valueOf(cursor.getString(cursor.getColumnIndex("zhuanlanID"))))){
-                                                    exists = true;
-                                                    break;
-                                                }
-                                            } while (cursor.moveToNext());
-                                        }
-                                        cursor.close();
+                                    Boolean exists = false;
 
-                                        if (!exists){
+                                    Cursor cursor = db.query("Ids",null,null,null,null,null,null);
+                                    if (cursor.moveToFirst()){
+                                        do {
+                                            if (z.getSlug().equals(String.valueOf(cursor.getString(cursor.getColumnIndex("zhuanlanID"))))){
+                                                exists = true;
+                                                break;
+                                            }
+                                        } while (cursor.moveToNext());
+                                    }
+                                    cursor.close();
 
-                                            // 向数据库中插入数据
-                                            ContentValues values = new ContentValues();
-                                            values.put("zhuanlanID",input);
-                                            db.insert("Ids",null,values);
+                                    if (!exists){
 
-                                            values.clear();
+                                        // 向数据库中插入数据
+                                        ContentValues values = new ContentValues();
+                                        values.put("zhuanlanID",input);
+                                        db.insert("Ids",null,values);
 
-                                            ZhuanlanItem item = new ZhuanlanItem(name,slug,avatar,followersCount,postCount,description);
+                                        values.clear();
 
-                                            zhuanlanItemList.add(item);
+                                        zhuanlanList.add(z);
 
-                                            adapter = new ZhuanlanAdapter(getActivity(),zhuanlanItemList);
-                                            rvMain.setAdapter(adapter);
-                                            adapter.setItemClickListener(new OnRecyclerViewOnClickListener() {
-                                                @Override
-                                                public void OnClick(View v, int position) {
-                                                    Intent intent = new Intent(getContext(),PostsListActivity.class);
-                                                    intent.putExtra("slug",zhuanlanItemList.get(position).getSlug());
-                                                    intent.putExtra("title",zhuanlanItemList.get(position).getName());
-                                                    startActivity(intent);
-                                                }
+                                        adapter = new ZhuanlanAdapter(getActivity(),zhuanlanList);
+                                        recyclerView.setAdapter(adapter);
+                                        adapter.setItemClickListener(new OnRecyclerViewOnClickListener() {
+                                            @Override
+                                            public void OnClick(View v, int position) {
+                                                Intent intent = new Intent(getContext(),PostsListActivity.class);
+                                                intent.putExtra("slug",zhuanlanList.get(position).getSlug());
+                                                intent.putExtra("title",zhuanlanList.get(position).getName());
+                                                startActivity(intent);
+                                            }
 
-                                            });
+                                        });
 
-                                            tvUserDefine.setVisibility(View.GONE);
+                                        tvUserDefine.setVisibility(View.GONE);
 
-                                            adapter.notifyItemInserted(zhuanlanItemList.size() - 1);
-                                            // 具体的删除操作在touch helper中完成
-                                            callback = new ZhuanlanItemTouchHelper(getActivity(),adapter);
-                                            ItemTouchHelper helper = new ItemTouchHelper(callback);
-                                            helper.attachToRecyclerView(rvMain);
+                                        adapter.notifyItemInserted(zhuanlanList.size() - 1);
+                                        // 具体的删除操作在touch helper中完成
+                                        callback = new ZhuanlanItemTouchHelper(getActivity(),adapter);
+                                        ItemTouchHelper helper = new ItemTouchHelper(callback);
+                                        helper.attachToRecyclerView(recyclerView);
 
-                                        } else {
-                                            Snackbar.make(fab, R.string.added,Snackbar.LENGTH_SHORT).show();
-                                        }
-
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
+                                    } else {
+                                        Snackbar.make(fab, R.string.added,Snackbar.LENGTH_SHORT).show();
                                     }
 
                                     // 监听输入面板的情况，如果激活则隐藏
@@ -322,18 +279,13 @@ public class UserDefineIdsFragment extends Fragment{
                             }, new Response.ErrorListener() {
                                 @Override
                                 public void onErrorResponse(VolleyError volleyError) {
-
                                     Snackbar.make(fab, R.string.add_zhuanlan_id_error,Snackbar.LENGTH_SHORT).show();
-
                                 }
                             });
 
-                            request.setTag(TAG);
-                            queue.add(request);
+                            VolleySingleton.getVolleySingleton(getActivity()).addToRequestQueue(request);
 
                         }
-
-                        dialog.dismiss();
                     }
                 });
 
@@ -348,8 +300,8 @@ public class UserDefineIdsFragment extends Fragment{
 
         tvUserDefine = (TextView) view.findViewById(R.id.tv_user_define);
         fab = (FloatingActionButton) view.findViewById(R.id.fab);
-        rvMain = (RecyclerView) view.findViewById(R.id.recycler_view);
-        rvMain.setLayoutManager(layoutManager);
+        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh);
         //设置下拉刷新的按钮的颜色
         refreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
@@ -365,10 +317,6 @@ public class UserDefineIdsFragment extends Fragment{
     @Override
     public void onStop() {
         super.onStop();
-
-        if (queue != null){
-            queue.cancelAll(TAG);
-        }
 
         if (refreshLayout.isRefreshing()){
             refreshLayout.post(new Runnable() {

@@ -14,19 +14,17 @@
 
 
     <!--navigation drawer-->
-    <string name="nav_product_internet">产品·互联网</string>
-    <string name="nav_tourism_photo">旅行·摄影</string>
-    <string name="nav_music_film">音乐·影视</string>
-    <string name="nav_life_talking">生活·杂谈</string>
-    <string name="nav_emotion_psychology">情感·心理</string>
-    <string name="nav_financial">创业·金融</string>
-    <string name="nav_zhihu_coder">知乎·程序员</string>
+    <string name="nav_product">产品·创业·互联网</string>
+    <string name="nav_life">生活·旅行·杂谈</string>
+    <string name="nav_music">音乐·影视·摄影</string>
+    <string name="nav_emotion">健康·情感·心理</string>
+    <string name="nav_profession">专业领域</string>
+    <string name="nav_zhihu">知乎·程序员</string>
     <string name="others">Others</string>
     <string name="nav_user_define">自定义</string>
     <!--其中关于引用title_activity_about-->
     <!--the nav about reference title_activity_about-->
     <!--navigation drawer end-->
-
 
     <!--main option menu-->
     <string name="action_copyright">版权声明</string>
