@@ -104,14 +104,13 @@ public class ZhuanlanAdapter extends RecyclerView.Adapter<ZhuanlanAdapter.Zhuanl
     /**
      * 配合ZhuanlanItenTouchHelper使用，暴露方法
      * 对于数据库中数据的操作在此完成,helper中主要完成view的删除
-     * @param context context
      * @param position position
      */
-    public void remove(Context context,int position) {
+    public void remove(int position) {
 
         Zhuanlan item = list.get(position);
         SQLiteDatabase db = new MyDataBaseHelper(context,"User_defined_IDs.db",null,1).getWritableDatabase();
-        db.delete("Ids","zhuanlanID = ?", new String[] {item.getSlug()});
+        db.delete("Ids","zhuanlanID=?", new String[] {item.getSlug()});
         list.remove(position);
         notifyItemRemoved(position);
 

@@ -9,7 +9,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.marktony.zhuanlan.R;
-import com.marktony.zhuanlan.bean.CommentItem;
+import com.marktony.zhuanlan.bean.AuthorOrLiker;
+import com.marktony.zhuanlan.bean.Comment;
 import com.marktony.zhuanlan.view.CircleImageView;
 
 import java.util.ArrayList;
@@ -23,9 +24,9 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
     private final Context context;
     private final LayoutInflater inflater;
 
-    private List<CommentItem> list = new ArrayList<CommentItem>();
+    private List<Comment> list = new ArrayList<>();
 
-    public CommentsAdapter(Context context,List<CommentItem> list){
+    public CommentsAdapter(Context context,List<Comment> list){
         this.context = context;
         this.list = list;
         this.inflater = LayoutInflater.from(context);
@@ -38,13 +39,22 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
 
     @Override
     public void onBindViewHolder(CommentViewHolder holder, int position) {
-        CommentItem item = list.get(position);
-        Glide.with(context).load(item.getAvatarUrl()).centerCrop().into(holder.avatar);
-        holder.tvAuthor.setText(item.getAuthor());
+        Comment item = list.get(position);
+
+        AuthorOrLiker a = item.getAuthor();
+
+        Glide.with(context)
+                .load(a.getAvatar().getTemplate().replace("{id}", a.getAvatar().getId()).replace("{size}", "m"))
+                .asBitmap()
+                .centerCrop()
+                .into(holder.avatar);
+
+        holder.tvAuthor.setText(a.getName());
         holder.tvContent.setText(item.getContent());
-        String likes = item.getLikes() + "赞";
+        String likes = item.getLikesCount() + "赞";
         holder.tvLikes.setText(likes);
-        holder.tvTime.setText(item.getTime());
+        holder.tvTime.setText(item.getCreatedTime());
+
     }
 
     @Override

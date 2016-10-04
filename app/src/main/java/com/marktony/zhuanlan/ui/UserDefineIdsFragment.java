@@ -37,7 +37,6 @@ import com.marktony.zhuanlan.bean.Zhuanlan;
 import com.marktony.zhuanlan.db.MyDataBaseHelper;
 import com.marktony.zhuanlan.utils.API;
 import com.marktony.zhuanlan.interfaze.OnRecyclerViewOnClickListener;
-import com.marktony.zhuanlan.utils.ZhuanlanItemTouchHelper;
 
 import java.util.ArrayList;
 
@@ -59,8 +58,6 @@ public class UserDefineIdsFragment extends Fragment{
     private RecyclerView recyclerView;
 
     private Gson gson = new Gson();
-
-    private ItemTouchHelper.Callback callback;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -136,9 +133,17 @@ public class UserDefineIdsFragment extends Fragment{
 
                             refreshLayout.setEnabled(false);
 
-                            // 具体的删除操作在touch helper中完成
-                            callback = new ZhuanlanItemTouchHelper(getActivity(),adapter);
-                            ItemTouchHelper helper = new ItemTouchHelper(callback);
+                            ItemTouchHelper helper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+                                @Override
+                                public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                                    return false;
+                                }
+
+                                @Override
+                                public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                                    adapter.remove(viewHolder.getLayoutPosition());
+                                }
+                            });
                             helper.attachToRecyclerView(recyclerView);
                         }
 
@@ -237,7 +242,7 @@ public class UserDefineIdsFragment extends Fragment{
 
                                         // 向数据库中插入数据
                                         ContentValues values = new ContentValues();
-                                        values.put("zhuanlanID",input);
+                                        values.put("zhuanlanID",input.toLowerCase());
                                         db.insert("Ids",null,values);
 
                                         values.clear();
@@ -261,9 +266,20 @@ public class UserDefineIdsFragment extends Fragment{
 
                                         adapter.notifyItemInserted(zhuanlanList.size() - 1);
                                         // 具体的删除操作在touch helper中完成
-                                        callback = new ZhuanlanItemTouchHelper(getActivity(),adapter);
-                                        ItemTouchHelper helper = new ItemTouchHelper(callback);
+
+                                        ItemTouchHelper helper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+                                            @Override
+                                            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                                                return false;
+                                            }
+
+                                            @Override
+                                            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                                                adapter.remove(viewHolder.getAdapterPosition());
+                                            }
+                                        });
                                         helper.attachToRecyclerView(recyclerView);
+
 
                                     } else {
                                         Snackbar.make(fab, R.string.added,Snackbar.LENGTH_SHORT).show();
@@ -274,6 +290,8 @@ public class UserDefineIdsFragment extends Fragment{
                                     if (imm.isActive()) {
                                         imm.hideSoftInputFromWindow(fab.getWindowToken(), 0);
                                     }
+
+                                    dialog.dismiss();
 
                                 }
                             }, new Response.ErrorListener() {

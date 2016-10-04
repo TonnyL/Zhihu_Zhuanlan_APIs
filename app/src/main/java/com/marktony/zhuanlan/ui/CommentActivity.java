@@ -13,9 +13,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
 import com.marktony.zhuanlan.R;
 import com.marktony.zhuanlan.adapter.CommentsAdapter;
-import com.marktony.zhuanlan.bean.CommentItem;
+import com.marktony.zhuanlan.bean.Comment;
 import com.marktony.zhuanlan.utils.API;
 
 import org.json.JSONArray;
@@ -27,15 +28,16 @@ import java.util.List;
 
 public class CommentActivity extends AppCompatActivity {
 
-    private Toolbar toolbar;
-    private RecyclerView rvComments;
+    private RecyclerView recyclerView;
     private String id;
 
     private int commentCount;
 
-    private List<CommentItem> list = new ArrayList<CommentItem>();
+    private List<Comment> list = new ArrayList<>();
 
     private  CommentsAdapter adapter;
+
+    private Gson gson = new Gson();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,9 +49,9 @@ public class CommentActivity extends AppCompatActivity {
         id = getIntent().getStringExtra("id");
         commentCount = getIntent().getIntExtra("commentsCount",0);
 
-        loadData(true);
+        loadData();
 
-        rvComments.setOnScrollListener(new RecyclerView.OnScrollListener() {
+        recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
 
             boolean isSlidingToLast = false;
 
@@ -68,9 +70,9 @@ public class CommentActivity extends AppCompatActivity {
                     if (lastVisibleItem == (totalItemCount - 1) && isSlidingToLast) {
 
                         if (list.size() < commentCount){
-                            loadData(false);
+                            loadData();
                         } else {
-                            Snackbar.make(rvComments, R.string.no_more,Snackbar.LENGTH_SHORT).show();
+                            Snackbar.make(CommentActivity.this.recyclerView, R.string.no_more,Snackbar.LENGTH_SHORT).show();
                         }
 
                     }
@@ -92,13 +94,13 @@ public class CommentActivity extends AppCompatActivity {
 
     private void initViews(){
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        rvComments = (RecyclerView) findViewById(R.id.rv_comments);
-        rvComments.setLayoutManager(new LinearLayoutManager(CommentActivity.this));
+        recyclerView = (RecyclerView) findViewById(R.id.rv_comments);
+        recyclerView.setLayoutManager(new LinearLayoutManager(CommentActivity.this));
 
     }
 
@@ -115,83 +117,40 @@ public class CommentActivity extends AppCompatActivity {
 
     /**
      * 通过网络请求加载评论数据
-     * @param firstLoad 是否为初始化加载，如果为true，那么给recycler view设置适配器，否则通知数据变化
      */
-    private void loadData(Boolean firstLoad){
+    private void loadData(){
 
-        if (firstLoad){
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, API.POST_URL + id + "/comments" + "?limit=20&offset=" + list.size(), new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray jsonArray) {
+                if (jsonArray.length() != 0) {
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        try {
+                            JSONObject o = jsonArray.getJSONObject(i);
+                            Comment c = gson.fromJson(o.toString(), Comment.class);
+                            list.add(c);
 
-            JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, API.POST_URL + id + "/comments" + "?limit=20&offset=" + list.size(), new Response.Listener<JSONArray>() {
-                @Override
-                public void onResponse(JSONArray jsonArray) {
-
-                    if (jsonArray.length() != 0){
-                        for(int i = 0; i < jsonArray.length(); i++){
-                            try {
-                                JSONObject o = jsonArray.getJSONObject(i);
-                                CommentItem item = new CommentItem("https://pic4.zhimg.com/" + o.getJSONObject("author").getJSONObject("avatar").getString("id") + "_l.jpg",
-                                        o.getJSONObject("author").getString("name"),
-                                        o.getString("content"),
-                                        o.getString("createdTime").substring(0,10),
-                                        o.getString("likesCount"));
-
-                                list.add(item);
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
+                            if (adapter == null) {
+                                adapter = new CommentsAdapter(CommentActivity.this, list);
+                                recyclerView.setAdapter(adapter);
+                            } else {
+                                adapter.notifyDataSetChanged();
                             }
-                        }
 
-                        adapter = new CommentsAdapter(CommentActivity.this,list);
-                        rvComments.setAdapter(adapter);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError volleyError) {
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
 
-                }
-            });
+            }
+        });
 
-            Volley.newRequestQueue(getApplicationContext()).add(request);
-
-        } else {
-
-            JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, API.POST_URL + id + "/comments" + "?limit=20&offset=" + list.size(), new Response.Listener<JSONArray>() {
-                @Override
-                public void onResponse(JSONArray jsonArray) {
-
-                    if (jsonArray.length() != 0){
-                        for(int i = 0; i < jsonArray.length(); i++){
-                            try {
-                                JSONObject o = jsonArray.getJSONObject(i);
-                                String temp = "https://pic4.zhimg.com/" + o.getJSONObject("author").getJSONObject("avatar").getString("id") + "_l.jpg";
-                                CommentItem item = new CommentItem(temp,
-                                        o.getJSONObject("author").getString("name"),
-                                        o.getString("content"),
-                                        o.getString("createdTime"),
-                                        o.getString("likesCount"));
-
-                                list.add(item);
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-
-                        adapter.notifyDataSetChanged();
-
-                    }
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError volleyError) {
-
-                }
-            });
-
-            Volley.newRequestQueue(getApplicationContext()).add(request);
-        }
+        Volley.newRequestQueue(getApplicationContext()).add(request);
 
     }
 

@@ -13,11 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.marktony.zhuanlan.R;
 import com.marktony.zhuanlan.adapter.ZhuanlanAdapter;
@@ -37,7 +35,6 @@ public class GlobalFragment extends Fragment {
     private int type;
     private RecyclerView recyclerView;
     private SwipeRefreshLayout refreshLayout;
-    private RequestQueue queue;
     private String[] ids;
     private ZhuanlanAdapter adapter;
     private ArrayList<Zhuanlan> list = new ArrayList<>();
@@ -70,7 +67,6 @@ public class GlobalFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        queue = Volley.newRequestQueue(getActivity().getApplicationContext());
     }
 
     @Nullable
