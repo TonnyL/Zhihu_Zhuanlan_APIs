@@ -125,6 +125,7 @@ public class GlobalFragment extends Fragment {
                                 Intent intent = new Intent(getContext(),PostsListActivity.class);
                                 intent.putExtra("slug",list.get(position).getSlug());
                                 intent.putExtra("title",list.get(position).getName());
+                                intent.putExtra("post_count", list.get(position).getPostsCount());
                                 startActivity(intent);
                             }
                         });

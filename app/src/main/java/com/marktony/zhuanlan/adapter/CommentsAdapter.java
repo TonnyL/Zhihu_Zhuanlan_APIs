@@ -50,10 +50,14 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                 .into(holder.avatar);
 
         holder.tvAuthor.setText(a.getName());
-        holder.tvContent.setText(item.getContent());
+        String content = item.getContent();
+        if (item.getInReplyToCommentId() != 0) {
+            content = "回复 " + item.getInReplyToUser().getName() + " 的评论:" + content;
+        }
+        holder.tvContent.setText(content);
         String likes = item.getLikesCount() + "赞";
         holder.tvLikes.setText(likes);
-        holder.tvTime.setText(item.getCreatedTime());
+        holder.tvTime.setText(item.getCreatedTime().substring(0, 10));
 
     }
 

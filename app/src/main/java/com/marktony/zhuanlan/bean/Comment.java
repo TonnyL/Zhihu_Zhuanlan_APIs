@@ -16,6 +16,7 @@ public class Comment {
     private boolean featured;
     private int id;
     private int likesCount;
+    private AuthorOrLiker inReplyToUser;
 
     public String getContent() {
         return content;
@@ -95,5 +96,13 @@ public class Comment {
 
     public void setLikesCount(int likesCount) {
         this.likesCount = likesCount;
+    }
+
+    public AuthorOrLiker getInReplyToUser() {
+        return inReplyToUser;
+    }
+
+    public void setInReplyToUser(AuthorOrLiker inReplyToUser) {
+        this.inReplyToUser = inReplyToUser;
     }
 }

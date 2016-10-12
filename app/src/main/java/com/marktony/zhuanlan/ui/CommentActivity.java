@@ -29,7 +29,7 @@ import java.util.List;
 public class CommentActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
-    private String id;
+    private int id;
 
     private int commentCount;
 
@@ -46,7 +46,7 @@ public class CommentActivity extends AppCompatActivity {
 
         initViews();
 
-        id = getIntent().getStringExtra("id");
+        id = getIntent().getIntExtra("id", 0);
         commentCount = getIntent().getIntExtra("commentsCount",0);
 
         loadData();
@@ -120,7 +120,7 @@ public class CommentActivity extends AppCompatActivity {
      */
     private void loadData(){
 
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, API.POST_URL + id + "/comments" + "?limit=20&offset=" + list.size(), new Response.Listener<JSONArray>() {
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, API.POST_URL + id + "/comments?limit=20&offset=" + list.size(), new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray jsonArray) {
                 if (jsonArray.length() != 0) {
@@ -134,7 +134,7 @@ public class CommentActivity extends AppCompatActivity {
                                 adapter = new CommentsAdapter(CommentActivity.this, list);
                                 recyclerView.setAdapter(adapter);
                             } else {
-                                adapter.notifyDataSetChanged();
+                                adapter.notifyItemInserted(list.size());
                             }
 
                         } catch (JSONException e) {

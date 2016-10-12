@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -34,16 +35,16 @@ import java.util.List;
 public class PostsListActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
-    private RecyclerView rvPosts;
+    private RecyclerView recyclerView;
     private SwipeRefreshLayout refreshLayout;
 
     private List<ZhuanlanListItem> list = new ArrayList<ZhuanlanListItem>();
-    private LinearLayoutManager manager;
     private PostsAdapter adapter;
 
     private Gson gson = new Gson();
 
-    private static final String TAG = PostsListActivity.class.getSimpleName();
+    private String slug;
+    private int postCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,12 +61,53 @@ public class PostsListActivity extends AppCompatActivity {
         });
 
         Intent intent = getIntent();
-        String slug = intent.getStringExtra("slug");
+        slug = intent.getStringExtra("slug");
+        postCount = intent.getIntExtra("post_count", 0);
         String title = intent.getStringExtra("title");
 
         getSupportActionBar().setTitle(title);
 
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, API.BASE_URL + slug + "/posts?limit=20&offset=0", new Response.Listener<JSONArray>() {
+        loadData();
+
+        recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+
+            boolean isSlidingToLast = false;
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                isSlidingToLast = dy > 0;
+            }
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                LinearLayoutManager manager = (LinearLayoutManager) recyclerView.getLayoutManager();
+
+                //当不滚动时
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    //获取最后一个完全显示的itemposition
+                    int lastVisibleItem = manager.findLastCompletelyVisibleItemPosition();
+                    int totalItemCount = manager.getItemCount();
+
+                    //判断是否滚动到底部并且是向下滑动
+                    if (lastVisibleItem == (totalItemCount - 1) && isSlidingToLast) {
+
+                        if (list.size() < postCount){
+                            loadData();
+                        } else {
+                            Snackbar.make(toolbar, R.string.no_more,Snackbar.LENGTH_SHORT).show();
+                        }
+
+                    }
+                }
+            }
+        });
+
+    }
+
+    private void loadData() {
+
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, API.BASE_URL + slug + "/posts?limit=20&offset=" + list.size(), new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray jsonArray) {
 
@@ -86,7 +128,7 @@ public class PostsListActivity extends AppCompatActivity {
                 if (adapter == null) {
 
                     adapter = new PostsAdapter(PostsListActivity.this,list);
-                    rvPosts.setAdapter(adapter);
+                    recyclerView.setAdapter(adapter);
 
                     adapter.setItemClickListener(new OnRecyclerViewOnClickListener() {
                         @Override
@@ -112,7 +154,7 @@ public class PostsListActivity extends AppCompatActivity {
                     refreshLayout.setEnabled(false);
 
                 } else {
-                    adapter.notifyDataSetChanged();
+                    adapter.notifyItemInserted(list.size());
                 }
 
             }
@@ -150,9 +192,9 @@ public class PostsListActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         refreshLayout = (SwipeRefreshLayout) findViewById(R.id.refresh);
 
-        rvPosts = (RecyclerView) findViewById(R.id.rv_posts);
-        manager = new LinearLayoutManager(PostsListActivity.this);
-        rvPosts.setLayoutManager(manager);
+        recyclerView = (RecyclerView) findViewById(R.id.rv_posts);
+        LinearLayoutManager manager = new LinearLayoutManager(PostsListActivity.this);
+        recyclerView.setLayoutManager(manager);
 
         //设置下拉刷新的按钮的颜色
         refreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
@@ -172,10 +214,7 @@ public class PostsListActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-
-        if (refreshLayout.isRefreshing()){
-            refreshLayout.setRefreshing(false);
-        }
+        refreshLayout.setRefreshing(false);
     }
 
 }

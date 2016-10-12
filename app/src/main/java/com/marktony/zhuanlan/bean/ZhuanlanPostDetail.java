@@ -34,6 +34,34 @@ public class ZhuanlanPostDetail {
     private String summary;
     private int reviewingCommentsCount;
     private Meta meta;
+    private String commentPermission;
+
+    public int getCommentsCount() {
+        return commentsCount;
+    }
+
+    public void setCommentsCount(int commentsCount) {
+        this.commentsCount = commentsCount;
+    }
+
+    public String getCommentPermission() {
+        return commentPermission;
+    }
+
+    public void setCommentPermission(String commentPermission) {
+        this.commentPermission = commentPermission;
+    }
+
+    public int getLikesCount() {
+        return likesCount;
+    }
+
+    public void setLikesCount(int likesCount) {
+        this.likesCount = likesCount;
+    }
+
+    private int commentsCount;
+    private int likesCount;
 
     public boolean isTitleImageFullScreen() {
         return isTitleImageFullScreen;

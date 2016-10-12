@@ -19,13 +19,12 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
+import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 import com.marktony.zhuanlan.R;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.marktony.zhuanlan.app.VolleySingleton;
+import com.marktony.zhuanlan.bean.ZhuanlanPostDetail;
 
 
 public class ZhuanlanPostDetailActivity extends AppCompatActivity {
@@ -40,8 +39,11 @@ public class ZhuanlanPostDetailActivity extends AppCompatActivity {
     private int slug;
     private String title;
 
-    private String likesCount;
-    private String commentsCount;
+    private Gson gson = new Gson();
+    private ZhuanlanPostDetail detail;
+
+    private int likesCount;
+    private int commentsCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,34 +94,31 @@ public class ZhuanlanPostDetailActivity extends AppCompatActivity {
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
-
                 progressDialog.dismiss();
             }
         });
 
-        JsonObjectRequest re  = new JsonObjectRequest(Request.Method.GET, "https://zhuanlan.zhihu.com/api/posts/" + slug, new Response.Listener<JSONObject>() {
+        StringRequest request = new StringRequest(Request.Method.GET, "https://zhuanlan.zhihu.com/api/posts/" + slug, new Response.Listener<String>() {
             @Override
-            public void onResponse(JSONObject jsonObject) {
-                try {
-                    String content = jsonObject.getString("content");
-                    String css = "<link rel=\"stylesheet\" href=\"file:///android_asset/master.css\" type=\"text/css\">";
-                    String html = "<!DOCTYPE html>\n"
-                            + "<html lang=\"en\" xmlns=\"http://www.w3.org/1999/xhtml\">\n"
-                            + "<head>\n"
-                            + "\t<meta charset=\"utf-8\" />\n</head>\n"
-                            + css
-                            + "\n<body>"
-                            + content
-                            + "</body>\n</html>";
+            public void onResponse(String s) {
 
-                    wbMain.loadDataWithBaseURL(null,html,"text/html","utf-8",null);
+                detail = gson.fromJson(s, ZhuanlanPostDetail.class);
 
-                    likesCount = jsonObject.getString("likesCount");
-                    commentsCount = jsonObject.getString("commentsCount");
+                String css = "<link rel=\"stylesheet\" href=\"file:///android_asset/master.css\" type=\"text/css\">";
+                String html = "<!DOCTYPE html>\n"
+                        + "<html lang=\"en\" xmlns=\"http://www.w3.org/1999/xhtml\">\n"
+                        + "<head>\n"
+                        + "\t<meta charset=\"utf-8\" />\n</head>\n"
+                        + css
+                        + "\n<body>"
+                        + detail.getContent()
+                        + "</body>\n</html>";
 
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                wbMain.loadDataWithBaseURL(null,html,"text/html","utf-8",null);
+
+                likesCount = detail.getLikesCount();
+                commentsCount = detail.getCommentsCount();
+
             }
         }, new Response.ErrorListener() {
             @Override
@@ -128,7 +127,7 @@ public class ZhuanlanPostDetailActivity extends AppCompatActivity {
             }
         });
 
-        Volley.newRequestQueue(getApplicationContext()).add(re);
+        VolleySingleton.getVolleySingleton(this).addToRequestQueue(request);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
