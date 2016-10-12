@@ -38,7 +38,7 @@
             android:label="@string/comments"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ui.ReadActivity"
+            android:name=".ui.ZhuanlanPostDetailActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/title_activity_read"
             android:theme="@style/AppTheme.NoActionBar" />

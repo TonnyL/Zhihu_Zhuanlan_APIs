@@ -2,6 +2,7 @@
 <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/refresh">
 
     <android.support.design.widget.CoordinatorLayout
@@ -18,10 +19,7 @@
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/recycler_view">
-
-
-        </android.support.v7.widget.RecyclerView>
+            android:id="@+id/recycler_view" />
 
         <android.support.design.widget.FloatingActionButton
             android:layout_width="wrap_content"
@@ -32,6 +30,9 @@
             android:layout_marginBottom="@dimen/activity_vertical_margin"
             android:layout_gravity="bottom|end"
             android:background="@color/colorPrimary"
+            app:layout_behavior="com.marktony.zhuanlan.view.FabHideOnScroll"
+            app:elevation="4dp"
+            app:borderWidth="0dp"
             android:src="@drawable/ic_add"/>
 
 

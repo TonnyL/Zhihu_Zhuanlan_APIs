@@ -13,14 +13,14 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
 import com.marktony.zhuanlan.R;
 import com.marktony.zhuanlan.adapter.PostsAdapter;
-import com.marktony.zhuanlan.bean.PostItem;
+import com.marktony.zhuanlan.app.VolleySingleton;
+import com.marktony.zhuanlan.bean.ZhuanlanListItem;
 import com.marktony.zhuanlan.utils.API;
 import com.marktony.zhuanlan.interfaze.OnRecyclerViewOnClickListener;
 
@@ -37,14 +37,13 @@ public class PostsListActivity extends AppCompatActivity {
     private RecyclerView rvPosts;
     private SwipeRefreshLayout refreshLayout;
 
-    private List<PostItem> list = new ArrayList<PostItem>();
+    private List<ZhuanlanListItem> list = new ArrayList<ZhuanlanListItem>();
     private LinearLayoutManager manager;
     private PostsAdapter adapter;
 
-    private static final String TAG = "TAG";
+    private Gson gson = new Gson();
 
-    private RequestQueue queue;
-
+    private static final String TAG = PostsListActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,8 +58,6 @@ public class PostsListActivity extends AppCompatActivity {
                 refreshLayout.setRefreshing(true);
             }
         });
-
-        queue = Volley.newRequestQueue(getApplicationContext());
 
         Intent intent = getIntent();
         String slug = intent.getStringExtra("slug");
@@ -77,13 +74,7 @@ public class PostsListActivity extends AppCompatActivity {
                     try {
                         JSONObject object = jsonArray.getJSONObject(i);
 
-                        String author = object.getJSONObject("author").getString("name");
-                        String title = object.getString("title");
-                        String commentCount = object.getString("commentsCount");
-                        String imgUrl = object.getString("titleImage");
-                        String likeCount = object.getString("likesCount");
-                        String slug = object.getString("slug");
-                        PostItem item = new PostItem(slug,author,commentCount,imgUrl,title,likeCount);
+                        ZhuanlanListItem item = gson.fromJson(object.toString(), ZhuanlanListItem.class);
 
                         list.add(item);
 
@@ -92,27 +83,37 @@ public class PostsListActivity extends AppCompatActivity {
                     }
                 }
 
-                adapter = new PostsAdapter(PostsListActivity.this,list);
-                rvPosts.setAdapter(adapter);
-                adapter.setItemClickListener(new OnRecyclerViewOnClickListener() {
-                    @Override
-                    public void OnClick(View v, int position) {
-                        Intent intent = new Intent(PostsListActivity.this,ReadActivity.class);
-                        intent.putExtra("img_url",list.get(position).getImgUrl());
-                        intent.putExtra("title",list.get(position).getTitle());
-                        intent.putExtra("slug",list.get(position).getSlug());
-                        startActivity(intent);
-                    }
-                });
+                if (adapter == null) {
 
-                refreshLayout.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        refreshLayout.setRefreshing(false);
-                    }
-                });
+                    adapter = new PostsAdapter(PostsListActivity.this,list);
+                    rvPosts.setAdapter(adapter);
 
-                refreshLayout.setEnabled(false);
+                    adapter.setItemClickListener(new OnRecyclerViewOnClickListener() {
+                        @Override
+                        public void OnClick(View v, int position) {
+
+                            Intent intent = new Intent(PostsListActivity.this,ZhuanlanPostDetailActivity.class);
+                            intent.putExtra("img_url", list.get(position).getTitleImage());
+                            intent.putExtra("title",list.get(position).getTitle());
+                            intent.putExtra("slug",list.get(position).getSlug());
+
+                            startActivity(intent);
+
+                        }
+                    });
+
+                    refreshLayout.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            refreshLayout.setRefreshing(false);
+                        }
+                    });
+
+                    refreshLayout.setEnabled(false);
+
+                } else {
+                    adapter.notifyDataSetChanged();
+                }
 
             }
         }, new Response.ErrorListener() {
@@ -127,8 +128,7 @@ public class PostsListActivity extends AppCompatActivity {
             }
         });
 
-        request.setTag(TAG);
-        queue.add(request);
+        VolleySingleton.getVolleySingleton(this).addToRequestQueue(request);
 
     }
 
@@ -173,12 +173,9 @@ public class PostsListActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
 
-        if (queue != null){
-            queue.cancelAll(TAG);
-        }
-
         if (refreshLayout.isRefreshing()){
             refreshLayout.setRefreshing(false);
         }
     }
+
 }

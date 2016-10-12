@@ -28,9 +28,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
-public class ReadActivity extends AppCompatActivity {
+public class ZhuanlanPostDetailActivity extends AppCompatActivity {
 
-    private Toolbar toolbar;
     private FloatingActionButton fab;
     private WebView wbMain;
     private ImageView ivHeader;
@@ -38,7 +37,7 @@ public class ReadActivity extends AppCompatActivity {
 
     private MaterialDialog progressDialog;
 
-    private String slug;
+    private int slug;
     private String title;
 
     private String likesCount;
@@ -55,7 +54,7 @@ public class ReadActivity extends AppCompatActivity {
 
         String imgUrl = intent.getStringExtra("img_url");
         title = intent.getStringExtra("title");
-        slug = intent.getStringExtra("slug");
+        slug = intent.getIntExtra("slug", 0);
 
         setCollapsingToolbarLayoutTitle(title);
 
@@ -63,10 +62,10 @@ public class ReadActivity extends AppCompatActivity {
             ivHeader.setImageResource(R.drawable.error_image);
             ivHeader.setScaleType(ImageView.ScaleType.CENTER_CROP);
         } else {
-            Glide.with(ReadActivity.this).load(imgUrl).centerCrop().into(ivHeader);
+            Glide.with(ZhuanlanPostDetailActivity.this).load(imgUrl).centerCrop().into(ivHeader);
         }
 
-        progressDialog = new MaterialDialog.Builder(ReadActivity.this)
+        progressDialog = new MaterialDialog.Builder(ZhuanlanPostDetailActivity.this)
                 .progress(true,0)
                 .content(R.string.loading)
                 .build();
@@ -144,7 +143,7 @@ public class ReadActivity extends AppCompatActivity {
 
     private void initViews() {
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         toolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
@@ -182,7 +181,7 @@ public class ReadActivity extends AppCompatActivity {
 
         if (id == R.id.action_comments){
 
-            Intent intent = new Intent(ReadActivity.this,CommentActivity.class);
+            Intent intent = new Intent(ZhuanlanPostDetailActivity.this,CommentActivity.class);
             intent.putExtra("id",slug);
             intent.putExtra("commentsCount",Integer.valueOf(commentsCount));
             startActivity(intent);
@@ -205,6 +204,5 @@ public class ReadActivity extends AppCompatActivity {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
     }
-
 
 }

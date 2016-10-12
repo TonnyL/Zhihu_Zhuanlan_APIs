@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.marktony.zhuanlan.R;
-import com.marktony.zhuanlan.bean.PostItem;
+import com.marktony.zhuanlan.bean.ZhuanlanListItem;
 import com.marktony.zhuanlan.interfaze.OnRecyclerViewOnClickListener;
 
 import java.util.ArrayList;
@@ -23,10 +23,10 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
 
     private final Context context;
     private LayoutInflater inflater;
-    private List<PostItem> list = new ArrayList<PostItem>();
+    private List<ZhuanlanListItem> list = new ArrayList<ZhuanlanListItem>();
     private OnRecyclerViewOnClickListener mListener;
 
-    public PostsAdapter(Context context,List<PostItem> list){
+    public PostsAdapter(Context context,List<ZhuanlanListItem> list){
         this.context = context;
         this.list = list;
         this.inflater = LayoutInflater.from(context);
@@ -41,18 +41,22 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
 
     @Override
     public void onBindViewHolder(PostsViewHolder holder, int position) {
-        PostItem item = list.get(position);
+        ZhuanlanListItem item = list.get(position);
 
-        if (item.getImgUrl() == null || item.getImgUrl().equals("")){
+        if (item.getTitleImage() == null || item.getTitleImage().equals("")){
             holder.ivMain.setImageResource(R.drawable.error_image);
             holder.ivMain.setScaleType(ImageView.ScaleType.CENTER_CROP);
         } else {
-            Glide.with(context).load(item.getImgUrl()).centerCrop().into(holder.ivMain);
+            Glide.with(context)
+                    .load(item.getTitleImage().replace("r.jpg", "b.jpg"))
+                    .asBitmap()
+                    .centerCrop()
+                    .into(holder.ivMain);
         }
-        holder.tvAuthor.setText(item.getAuthor());
-        String likes = item.getLikeCount() + "赞";
+        holder.tvAuthor.setText(item.getAuthor().getName());
+        String likes = item.getLikesCount() + "赞";
         holder.tvLikesCount.setText(likes);
-        String comment = item.getCommentCount() + "条评论";
+        String comment = item.getCommentsCount() + "条评论";
         holder.tvCommentCount.setText(comment);
         holder.tvTitle.setText(item.getTitle());
 
@@ -98,4 +102,5 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
             }
         }
     }
+
 }
