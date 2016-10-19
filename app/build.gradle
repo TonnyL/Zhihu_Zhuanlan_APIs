@@ -8,8 +8,8 @@ android {
         applicationId "com.marktony.zhuanlan"
         minSdkVersion 14
         targetSdkVersion 24
-        versionCode 5
-        versionName "V1.4"
+        versionCode 6
+        versionName "V1.5"
     }
     buildTypes {
         release {

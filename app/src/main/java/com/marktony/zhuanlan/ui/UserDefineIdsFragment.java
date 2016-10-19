@@ -96,69 +96,7 @@ public class UserDefineIdsFragment extends Fragment{
                 }
             });
 
-            for (int i = 0; i < list.size(); i++){
-
-                final int finalI = i;
-
-                StringRequest request = new StringRequest(Request.Method.GET, API.BASE_URL + list.get(i), new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String s) {
-                        Zhuanlan z = gson.fromJson(s, Zhuanlan.class);
-                        zhuanlanList.add(z);
-
-                        if (adapter == null) {
-                            adapter = new ZhuanlanAdapter(getActivity(), zhuanlanList);
-                            recyclerView.setAdapter(adapter);
-                            adapter.setItemClickListener(new OnRecyclerViewOnClickListener() {
-                                @Override
-                                public void OnClick(View v, int position) {
-                                    Intent intent = new Intent(getContext(),PostsListActivity.class);
-                                    intent.putExtra("slug",zhuanlanList.get(position).getSlug());
-                                    intent.putExtra("title",zhuanlanList.get(position).getName());
-                                    startActivity(intent);
-                                }
-                            });
-                        } else {
-                            adapter.notifyItemInserted(zhuanlanList.size() - 1);
-                        }
-
-                        if (finalI == (list.size() - 1)){
-
-                            refreshLayout.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    refreshLayout.setRefreshing(false);
-                                }
-                            });
-
-                            refreshLayout.setEnabled(false);
-
-                            ItemTouchHelper helper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
-                                @Override
-                                public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-                                    return false;
-                                }
-
-                                @Override
-                                public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-                                    adapter.remove(viewHolder.getLayoutPosition());
-                                }
-                            });
-                            helper.attachToRecyclerView(recyclerView);
-                        }
-
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError volleyError) {
-
-                    }
-                });
-
-                VolleySingleton.getVolleySingleton(getActivity()).addToRequestQueue(request);
-
-            }
-
+            requestData();
 
         }
 
@@ -311,6 +249,13 @@ public class UserDefineIdsFragment extends Fragment{
             }
         });
 
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                requestData();
+            }
+        });
+
         return view;
     }
 
@@ -335,14 +280,75 @@ public class UserDefineIdsFragment extends Fragment{
     @Override
     public void onStop() {
         super.onStop();
+        refreshLayout.setRefreshing(false);
+    }
 
-        if (refreshLayout.isRefreshing()){
-            refreshLayout.post(new Runnable() {
+    private void requestData() {
+
+        if (list.size() != 0) {
+            list.clear();
+        }
+
+        for (int i = 0; i < list.size(); i++) {
+
+            final int finalI = i;
+
+            StringRequest request = new StringRequest(Request.Method.GET, API.BASE_URL + list.get(i), new Response.Listener<String>() {
                 @Override
-                public void run() {
-                    refreshLayout.setRefreshing(false);
+                public void onResponse(String s) {
+                    Zhuanlan z = gson.fromJson(s, Zhuanlan.class);
+                    zhuanlanList.add(z);
+
+                    if (finalI == (list.size() - 1)){
+
+                        if (adapter == null) {
+                            adapter = new ZhuanlanAdapter(getActivity(), zhuanlanList);
+                            recyclerView.setAdapter(adapter);
+                            adapter.setItemClickListener(new OnRecyclerViewOnClickListener() {
+                                @Override
+                                public void OnClick(View v, int position) {
+                                    Intent intent = new Intent(getContext(),PostsListActivity.class);
+                                    intent.putExtra("slug",zhuanlanList.get(position).getSlug());
+                                    intent.putExtra("title",zhuanlanList.get(position).getName());
+                                    startActivity(intent);
+                                }
+                            });
+                        } else {
+                            adapter.notifyItemInserted(zhuanlanList.size() - 1);
+                        }
+
+                        refreshLayout.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                refreshLayout.setRefreshing(false);
+                            }
+                        });
+
+                        ItemTouchHelper helper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+                            @Override
+                            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                                return false;
+                            }
+
+                            @Override
+                            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                                adapter.remove(viewHolder.getLayoutPosition());
+                            }
+                        });
+                        helper.attachToRecyclerView(recyclerView);
+                    }
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError volleyError) {
+
                 }
             });
+
+            VolleySingleton.getVolleySingleton(getActivity()).addToRequestQueue(request);
+
         }
     }
+
 }

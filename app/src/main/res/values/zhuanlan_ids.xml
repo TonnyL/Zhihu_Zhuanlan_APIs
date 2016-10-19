@@ -24,7 +24,6 @@
     </string-array>
 
     <string-array name="life"><!--生活 旅行 杂谈-->
-        <item>yanshar</item><!--The Final Boarding Call-->
         <item>he110world</item><!--我们的征途是星辰大海-->
         <item>ciciatc</item><!--与食巨近贱多食广地蹦跶在不列颠-->
         <item>japan-talk</item><!--东瀛杂记-->
@@ -65,8 +64,6 @@
         <item>classicalmusic</item><!--古典音乐的美好-->
         <item>DKLearnsPop</item><!--乱弹琴-->
         <item>klexraxmusic</item><!--狂喜之诗-->
-        <item>1song</item><!--那些年听过的歌-->
-        <item>dingj</item><!--人生何处不flop-->
         <item>Photography</item><!--摄影的那些事儿-->
     </string-array>
 

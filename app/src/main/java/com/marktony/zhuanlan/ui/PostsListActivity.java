@@ -103,6 +103,16 @@ public class PostsListActivity extends AppCompatActivity {
             }
         });
 
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if (list.size() != 0) {
+                    list.clear();
+                }
+                loadData();
+            }
+        });
+
     }
 
     private void loadData() {
@@ -144,18 +154,16 @@ public class PostsListActivity extends AppCompatActivity {
                         }
                     });
 
-                    refreshLayout.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            refreshLayout.setRefreshing(false);
-                        }
-                    });
-
-                    refreshLayout.setEnabled(false);
-
                 } else {
                     adapter.notifyItemInserted(list.size());
                 }
+
+                refreshLayout.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        refreshLayout.setRefreshing(false);
+                    }
+                });
 
             }
         }, new Response.ErrorListener() {
@@ -197,7 +205,11 @@ public class PostsListActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(manager);
 
         //设置下拉刷新的按钮的颜色
-        refreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
+        refreshLayout.setColorSchemeResources(
+                android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
         //设置手指在屏幕上下拉多少距离开始刷新
         refreshLayout.setDistanceToTriggerSync(300);
         //设置下拉刷新按钮的背景颜色

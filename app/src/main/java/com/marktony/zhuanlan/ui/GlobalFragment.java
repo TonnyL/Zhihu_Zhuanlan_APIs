@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -106,34 +107,81 @@ public class GlobalFragment extends Fragment {
 
         }
 
-        for (int i = 0;i < ids.length; i++) {
+        requestData();
+
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                requestData();
+            }
+        });
+
+        return view;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        refreshLayout.setRefreshing(false);
+        VolleySingleton.getVolleySingleton(getContext()).getRequestQueue().cancelAll(type);
+    }
+
+    private void initViews(View view) {
+
+        recyclerView = (RecyclerView) view.findViewById(R.id.rv_main);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh);
+
+        //设置下拉刷新的按钮的颜色
+        refreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+        //设置手指在屏幕上下拉多少距离开始刷新
+        refreshLayout.setDistanceToTriggerSync(300);
+        //设置下拉刷新按钮的背景颜色
+        refreshLayout.setProgressBackgroundColorSchemeColor(Color.WHITE);
+        //设置下拉刷新按钮的大小
+        refreshLayout.setSize(SwipeRefreshLayout.DEFAULT);
+
+    }
+
+    private void requestData() {
+
+        if (list.size() != 0) {
+            list.clear();
+        }
+
+        for (int i = 0;i < ids.length; i++){
 
             final int finalI = i;
 
             StringRequest request = new StringRequest(Request.Method.GET, API.BASE_URL + ids[i], new Response.Listener<String>() {
                 @Override
                 public void onResponse(String s) {
+
                     Zhuanlan z = gson.fromJson(s, Zhuanlan.class);
                     list.add(z);
 
-                    if (adapter == null) {
-                        adapter = new ZhuanlanAdapter(getActivity(),list);
-                        recyclerView.setAdapter(adapter);
-                        adapter.setItemClickListener(new OnRecyclerViewOnClickListener() {
-                            @Override
-                            public void OnClick(View v, int position) {
-                                Intent intent = new Intent(getContext(),PostsListActivity.class);
-                                intent.putExtra("slug",list.get(position).getSlug());
-                                intent.putExtra("title",list.get(position).getName());
-                                intent.putExtra("post_count", list.get(position).getPostsCount());
-                                startActivity(intent);
-                            }
-                        });
-                    } else {
-                        adapter.notifyItemInserted(list.size() - 1);
-                    }
-
                     if (finalI == (ids.length - 1)){
+
+                        if (adapter == null) {
+                            adapter = new ZhuanlanAdapter(getActivity(),list);
+                            recyclerView.setAdapter(adapter);
+                            adapter.setItemClickListener(new OnRecyclerViewOnClickListener() {
+                                @Override
+                                public void OnClick(View v, int position) {
+                                    Intent intent = new Intent(getContext(),PostsListActivity.class);
+                                    intent.putExtra("slug",list.get(position).getSlug());
+                                    intent.putExtra("title",list.get(position).getName());
+                                    intent.putExtra("post_count", list.get(position).getPostsCount());
+                                    startActivity(intent);
+                                }
+                            });
+                        } else {
+                            adapter.notifyDataSetChanged();
+                        }
 
                         refreshLayout.post(new Runnable() {
                             @Override
@@ -142,7 +190,6 @@ public class GlobalFragment extends Fragment {
                             }
                         });
 
-                        refreshLayout.setEnabled(false);
                     }
 
                 }
@@ -153,27 +200,10 @@ public class GlobalFragment extends Fragment {
                 }
             });
 
+            request.setTag(type);
             VolleySingleton.getVolleySingleton(getActivity()).addToRequestQueue(request);
 
         }
-
-        return view;
-    }
-
-    private void initViews(View view) {
-
-        recyclerView = (RecyclerView) view.findViewById(R.id.rv_main);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh);
-
-        //设置下拉刷新的按钮的颜色
-        refreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
-        //设置手指在屏幕上下拉多少距离开始刷新
-        refreshLayout.setDistanceToTriggerSync(300);
-        //设置下拉刷新按钮的背景颜色
-        refreshLayout.setProgressBackgroundColorSchemeColor(Color.WHITE);
-        //设置下拉刷新按钮的大小
-        refreshLayout.setSize(SwipeRefreshLayout.DEFAULT);
 
     }
 
