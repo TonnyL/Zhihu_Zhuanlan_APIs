@@ -18,13 +18,13 @@
 直接下载apk试用 -> [Google Drive](https://drive.google.com/open?id=0B3yYs4KaSVg_MFNYaG9WZk9JenM)
 
 ### 开源项目
-名称|介绍
---|--
-[Volley](https://android.googlesource.com/platform/frameworks/volley/)|Volley is an HTTP library that makes networking for Android apps easier and most importantly, faster. Volley is available through the open AOSP repository.
-[Glide](https://github.com/bumptech/glide)|An image loading and caching library for Android focused on smooth scrolling
-[Gson](https://github.com/google/gson)|A Java serialization/deserialization library that can convert Java Objects into JSON and back.
-[Android Support Libraries](https://developer.android.com/topic/libraries/support-library/index.html)|The Android Support Library offers a number of features that are not built into the framework. These libraries offer backward-compatible versions of new features, provide useful UI elements that are not included in the framework, and provide a range of utilities that apps can draw on.
-[material-dialogs](https://github.com/afollestad/material-dialogs)|A beautiful, fluid, and customizable dialogs API.
+名称 | 介绍
+-------- | ---------
+[Volley](https://android.googlesource.com/platform/frameworks/volley/) | Volley is an HTTP library that makes networking for Android apps easier and most importantly, faster. Volley is available through the open AOSP repository.
+[Glide](https://github.com/bumptech/glide) | An image loading and caching library for Android focused on smooth scrolling
+[Gson](https://github.com/google/gson) | A Java serialization/deserialization library that can convert Java Objects into JSON and back.
+[Android Support Libraries](https://developer.android.com/topic/libraries/support-library/index.html) | The Android Support Library offers a number of features that are not built into the framework. These libraries offer backward-compatible versions of new features, provide useful UI elements that are not included in the framework, and provide a range of utilities that apps can draw on.
+[material-dialogs](https://github.com/afollestad/material-dialogs) | A beautiful, fluid, and customizable dialogs API.
 
 ### 联系我
 marktonymengyi#gmail.com (替换#为@)
