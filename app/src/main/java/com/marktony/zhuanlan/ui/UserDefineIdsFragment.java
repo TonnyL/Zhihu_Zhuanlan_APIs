@@ -49,7 +49,7 @@ public class UserDefineIdsFragment extends Fragment{
     private SQLiteDatabase db;
     private ArrayList<String> list = new ArrayList<String>();
 
-    private TextView tvUserDefine;
+    private TextView textView;
     private FloatingActionButton fab;
     private SwipeRefreshLayout refreshLayout;
 
@@ -84,10 +84,10 @@ public class UserDefineIdsFragment extends Fragment{
         cursor.close();
 
         if (list.size() == 0){
-            tvUserDefine.setVisibility(View.VISIBLE);
+            textView.setVisibility(View.VISIBLE);
         } else {
 
-            tvUserDefine.setVisibility(View.GONE);
+            textView.setVisibility(View.GONE);
 
             refreshLayout.post(new Runnable() {
                 @Override
@@ -213,11 +213,10 @@ public class UserDefineIdsFragment extends Fragment{
                                                 adapter.remove(viewHolder.getAdapterPosition());
                                             }
                                         });
+
                                         helper.attachToRecyclerView(recyclerView);
 
-
-
-                                        tvUserDefine.setVisibility(View.GONE);
+                                        textView.setVisibility(View.GONE);
 
                                         adapter.notifyItemInserted(zhuanlanList.size() - 1);
 
@@ -254,8 +253,9 @@ public class UserDefineIdsFragment extends Fragment{
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                if (list.size() != 0) {
-                    list.clear();
+                if (zhuanlanList.size() != 0) {
+                    zhuanlanList.clear();
+                    adapter.notifyDataSetChanged();
                 }
                 requestData();
             }
@@ -266,7 +266,7 @@ public class UserDefineIdsFragment extends Fragment{
 
     private void initViews(View view) {
 
-        tvUserDefine = (TextView) view.findViewById(R.id.tv_user_define);
+        textView = (TextView) view.findViewById(R.id.tv_user_define);
         fab = (FloatingActionButton) view.findViewById(R.id.fab);
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -297,6 +297,7 @@ public class UserDefineIdsFragment extends Fragment{
             StringRequest request = new StringRequest(Request.Method.GET, API.BASE_URL + list.get(i), new Response.Listener<String>() {
                 @Override
                 public void onResponse(String s) {
+
                     Zhuanlan z = gson.fromJson(s, Zhuanlan.class);
                     zhuanlanList.add(z);
 
@@ -332,20 +333,16 @@ public class UserDefineIdsFragment extends Fragment{
                             adapter.notifyItemInserted(zhuanlanList.size() - 1);
                         }
 
-                        refreshLayout.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                refreshLayout.setRefreshing(false);
-                            }
-                        });
-
+                        refreshLayout.setRefreshing(false);
                     }
 
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError volleyError) {
-
+                    if (finalI == list.size() - 1) {
+                        refreshLayout.setRefreshing(false);
+                    }
                 }
             });
 
