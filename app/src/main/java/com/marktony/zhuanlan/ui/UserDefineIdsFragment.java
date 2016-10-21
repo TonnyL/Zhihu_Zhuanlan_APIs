@@ -200,9 +200,6 @@ public class UserDefineIdsFragment extends Fragment{
 
                                         });
 
-                                        tvUserDefine.setVisibility(View.GONE);
-
-                                        adapter.notifyItemInserted(zhuanlanList.size() - 1);
                                         // 具体的删除操作在touch helper中完成
 
                                         ItemTouchHelper helper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
@@ -218,6 +215,11 @@ public class UserDefineIdsFragment extends Fragment{
                                         });
                                         helper.attachToRecyclerView(recyclerView);
 
+
+
+                                        tvUserDefine.setVisibility(View.GONE);
+
+                                        adapter.notifyItemInserted(zhuanlanList.size() - 1);
 
                                     } else {
                                         Snackbar.make(fab, R.string.added,Snackbar.LENGTH_SHORT).show();
@@ -252,6 +254,9 @@ public class UserDefineIdsFragment extends Fragment{
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                if (list.size() != 0) {
+                    list.clear();
+                }
                 requestData();
             }
         });
@@ -285,10 +290,6 @@ public class UserDefineIdsFragment extends Fragment{
 
     private void requestData() {
 
-        if (list.size() != 0) {
-            list.clear();
-        }
-
         for (int i = 0; i < list.size(); i++) {
 
             final int finalI = i;
@@ -313,6 +314,20 @@ public class UserDefineIdsFragment extends Fragment{
                                     startActivity(intent);
                                 }
                             });
+
+                            ItemTouchHelper helper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+                                @Override
+                                public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                                    return false;
+                                }
+
+                                @Override
+                                public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                                    adapter.remove(viewHolder.getLayoutPosition());
+                                }
+                            });
+                            helper.attachToRecyclerView(recyclerView);
+
                         } else {
                             adapter.notifyItemInserted(zhuanlanList.size() - 1);
                         }
@@ -324,18 +339,6 @@ public class UserDefineIdsFragment extends Fragment{
                             }
                         });
 
-                        ItemTouchHelper helper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
-                            @Override
-                            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-                                return false;
-                            }
-
-                            @Override
-                            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-                                adapter.remove(viewHolder.getLayoutPosition());
-                            }
-                        });
-                        helper.attachToRecyclerView(recyclerView);
                     }
 
                 }

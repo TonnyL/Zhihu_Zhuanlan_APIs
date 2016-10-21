@@ -2,14 +2,14 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 24
-    buildToolsVersion "24.0.0"
+    buildToolsVersion "24.0.3"
 
     defaultConfig {
         applicationId "com.marktony.zhuanlan"
         minSdkVersion 14
         targetSdkVersion 24
-        versionCode 6
-        versionName "V1.5"
+        versionCode 7
+        versionName "V1.6"
     }
     buildTypes {
         release {
