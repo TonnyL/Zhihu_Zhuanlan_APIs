@@ -26,8 +26,19 @@
 [Android Support Libraries](https://developer.android.com/topic/libraries/support-library/index.html) | The Android Support Library offers a number of features that are not built into the framework. These libraries offer backward-compatible versions of new features, provide useful UI elements that are not included in the framework, and provide a range of utilities that apps can draw on.
 [material-dialogs](https://github.com/afollestad/material-dialogs) | A beautiful, fluid, and customizable dialogs API.
 
+## 我的其他项目
++ [纸飞机](https://github.com/marktony/ZhiHuDaily) -- 采用MVP架构，集合了知乎日报、果壳精选和豆瓣一刻的综合性阅读客户端
++ [饭否精选](https://github.com/marktony/FanfouHandpick) -- 使用Kotlin开发的饭否精选客户端
++ [简单翻译](https://github.com/marktony/Translator) -- 翻译App
++ [Reader](https://github.com/marktony/Reader) -- MVP + Volley + Gson, 内容包含了糗事百科，煎蛋和内涵段子
+
 ### 联系我
 marktonymengyi#gmail.com (替换#为@)
+
+## 支持我的工作
+如果你认为我值得获得一定的报酬，请使用微信扫描下面的二维码向我捐赠。
+
+![Wechat_QRCode](https://github.com/marktony/zhuanlan/blob/master/screenshots/wechat_qrcode.png)
 
 ### 许可证
 ```
