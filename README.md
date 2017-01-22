@@ -11,7 +11,7 @@
 marktonymengyi#gmail.com (替换#为@)
 
 ## 支持我的工作
-如果你认为我值得获得一定的报酬，请使用微信或微信扫描下面的二维码向我捐赠。
+如果你认为我值得获得一定的报酬，请使用微信或支付宝扫描下面的二维码向我捐赠。
 
 ![Wechat_QRCode](https://github.com/marktony/Awesome_API/blob/master/we_chat_qr_code.png)
 ![Alipay_QRCode](https://github.com/marktony/Awesome_API/blob/master/alipay_qr_code.png)
